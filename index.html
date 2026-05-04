@@ -126,7 +126,7 @@ button { font-family: inherit; }
   padding: 18px 28px 32px;
   background: var(--color-background-primary);
 }
-.main-inner { max-width: 1100px; }
+.main-inner { max-width: 100%; }
 
 .top {
   display: flex; justify-content: space-between; align-items: center;
@@ -248,7 +248,7 @@ button { font-family: inherit; }
 .t-item:hover { background: var(--hover-bg); border-radius: 4px; }
 .p:hover .p-t, .m-item:hover .m-meta, .ev:hover .ev-b { color: var(--color-text-secondary); }
 
-.p { display: flex; align-items: center; gap: 9px; padding: 7px 6px; margin: 0 -6px; border-top: 0.5px solid var(--color-border-tertiary); }
+.p { display: flex; align-items: center; gap: 10px; padding: 11px 6px; margin: 0 -6px; border-top: 0.5px solid var(--color-border-tertiary); }
 .p:first-of-type { border-top: none; padding-top: 4px; }
 .p-info { flex: 1; min-width: 0; }
 .p-n { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
@@ -398,7 +398,7 @@ button { font-family: inherit; }
   border-bottom: 0.5px solid var(--color-border-tertiary);
   flex-shrink: 0;
 }
-.m-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.m-head .m-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
 .m-x {
   width: 26px; height: 26px;
   display: flex; align-items: center; justify-content: center;
@@ -436,7 +436,7 @@ button { font-family: inherit; }
   border-color: var(--color-text-primary);
 }
 .field-textarea { resize: vertical; min-height: 60px; font-family: inherit; }
-.field-row { display: flex; gap: 8px; align-items: stretch; }
+.field-row { display: flex; gap: 8px; align-items: stretch; margin-bottom: 14px; }
 .field-row > .field { flex: 1; margin-bottom: 0; }
 
 .seg-control {
@@ -618,9 +618,11 @@ button { font-family: inherit; }
 
 
 .pv-grid { grid-template-columns:
-  minmax(125px, 1fr)     /* Name */
-  minmax(180px, 1.4fr)   /* Title */
+  minmax(135px, 1fr)     /* Name */
+  minmax(180px, 1.3fr)   /* Title */
   minmax(140px, 1fr)     /* Company */
+  minmax(120px, 0.85fr)  /* Sector */
+  minmax(70px, 0.5fr)    /* Mkt cap */
   minmax(105px, 0.7fr)   /* Relationship */
   minmax(48px, 0.35fr)   /* Owner */
   minmax(80px, 0.55fr)   /* Last contact */
@@ -632,6 +634,9 @@ button { font-family: inherit; }
 .pv-title { color: var(--color-text-secondary); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; }
 .pv-grid .dv-td { overflow: hidden; }
 .pv-name, .pv-company { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; display: inline-block; }
+.pv-sector { color: var(--color-text-secondary); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; display: inline-block; }
+.pv-mc { color: var(--color-text-secondary); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
 
 .pv-role { color: var(--color-text-secondary); font-size: 11px; font-weight: 500; }
 .pv-company { color: var(--color-text-secondary); font-size: 11px; cursor: pointer; }
@@ -1014,8 +1019,8 @@ button { font-family: inherit; }
 .dv-tr:hover { background: var(--hover-bg); }
 .dv-tr.stalled { opacity: 0.55; }
 .dv-tr.stalled:hover { opacity: 0.85; }
-.dv-tr.lost { opacity: 0.45; }
-.dv-tr.lost:hover { opacity: 0.7; }
+.dv-tr.lost { opacity: 0.55; }
+.dv-tr.lost:hover { opacity: 0.85; }
 
 .dv-td { padding: 9px 11px; font-size: 12px; color: var(--color-text-primary); display: flex; align-items: center; gap: 6px; min-width: 0; }
 .dv-co { font-weight: 500; }
@@ -1108,6 +1113,7 @@ button { font-family: inherit; }
 
 @media (max-width: 1100px) {
   .dv-kb { grid-template-columns: repeat(3, minmax(190px, 1fr)); }
+  
   /* deals: minmax columns guarantee minimum widths; table scrolls horizontally on narrow viewports */
 }
 @media (max-width: 720px) {
@@ -1123,6 +1129,574 @@ button { font-family: inherit; }
   .main { padding: 14px 16px 24px; }
   .acts { flex-wrap: wrap; }
 }
+
+/* ------- Person detail page ------- */
+.pp-hero {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 18px 0 16px; margin-bottom: 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.pp-av {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 500; color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+.pp-hero-main { flex: 1; min-width: 0; }
+.pp-hero-main h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px 0; }
+.pp-meta { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px; }
+.pp-meta .pp-sep { color: var(--color-text-tertiary); margin: 0 5px; }
+.pp-pills { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+.pp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 16px;
+}
+.pp-col-main, .pp-col-side { display: flex; flex-direction: column; gap: 14px; }
+
+.pp-fields { display: flex; flex-direction: column; gap: 0; }
+.pp-field {
+  display: grid; grid-template-columns: 110px 1fr;
+  align-items: center; gap: 10px;
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.pp-field:last-child { border-bottom: none; }
+.pp-field-l { font-size: 11px; color: var(--color-text-tertiary); letter-spacing: 0.02em; }
+.pp-field-v { font-size: 12px; color: var(--color-text-primary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pp-field-v a { color: var(--color-text-primary); text-decoration: none; }
+.pp-field-v a:hover { text-decoration: underline; }
+
+.pp-card-h { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.02em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.pp-card-c { background: var(--color-background-secondary); padding: 1px 6px; border-radius: 999px; font-size: 10px; color: var(--color-text-secondary); font-weight: 400; }
+
+.pp-co-card { gap: 6px; display: flex; flex-direction: column; }
+.pp-co-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.pp-co-strip { font-size: 11px; color: var(--color-text-secondary); display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.pp-co-strip span.sep { color: var(--color-text-tertiary); }
+.pp-co-stage { margin: 4px 0; }
+
+.pp-open-btn {
+  margin-top: 8px;
+  display: inline-flex; align-items: center; gap: 6px; justify-content: center;
+  padding: 6px 12px; font-size: 12px; font-weight: 500;
+  background: var(--color-background-secondary); color: var(--color-text-primary);
+  border: 0.5px solid var(--color-border-secondary); border-radius: 6px;
+  cursor: pointer; transition: background 0.12s;
+}
+.pp-open-btn:hover { background: var(--color-background-tertiary); }
+.pp-open-btn svg { width: 12px; height: 12px; }
+
+.pp-rel-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  cursor: pointer; transition: background 0.12s;
+  margin: 0 -6px; padding-left: 6px; padding-right: 6px;
+  border-radius: 4px;
+}
+.pp-rel-row:hover { background: var(--color-background-secondary); }
+.pp-rel-row:last-child { border-bottom: none; }
+.pp-rel-av {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--color-background-secondary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 500; color: var(--color-text-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  flex-shrink: 0;
+}
+.pp-rel-info { flex: 1; min-width: 0; }
+.pp-rel-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pp-rel-title { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pp-rel-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+.pp-flag {
+  display: inline-block; font-size: 10px; padding: 1px 7px;
+  border-radius: 999px; font-weight: 500;
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+}
+.pp-flag.dnc { background: #FCE7E7; color: #B53832; }
+.pp-flag.iro { background: #FCE7E7; color: #B53832; }
+.pp-flag.former { background: #DCF7E8; color: #137A4A; }
+
+
+/* ------- Inline search input ------- */
+.tbl-search {
+  position: relative; display: inline-flex; align-items: center;
+  margin-left: auto;
+}
+.tbl-search input {
+  font-family: inherit; font-size: 12px;
+  padding: 5px 9px 5px 28px; width: 220px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 6px; background: var(--color-background-primary);
+  color: var(--color-text-primary); outline: none;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.tbl-search input:focus {
+  border-color: var(--color-text-tertiary);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.04);
+}
+.tbl-search input::placeholder { color: var(--color-text-tertiary); }
+.tbl-search svg {
+  position: absolute; left: 9px; width: 12px; height: 12px;
+  color: var(--color-text-tertiary); pointer-events: none;
+}
+.dv-tabs { display: flex; align-items: center; }
+
+
+/* Two-column field layout for contact details */
+.pp-fields-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+  row-gap: 0;
+}
+.pp-fields-2col .pp-field { grid-column: span 1; }
+.pp-fields-2col .pp-field-wide { grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .pp-fields-2col { grid-template-columns: 1fr; }
+}
+
+/* Contact preferences toggle */
+.pp-prefs { display: flex; flex-direction: column; gap: 0; }
+.pp-pref {
+  display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.pp-pref-l { flex: 1; }
+.pp-pref:last-child { border-bottom: none; }
+.pp-pref-l { font-size: 11px; color: var(--color-text-tertiary); letter-spacing: 0.02em; }
+.pp-pref-toggle {
+  display: inline-flex;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 6px; overflow: hidden;
+  width: fit-content;
+}
+.pp-pref-opt {
+  font-size: 11px; padding: 4px 10px;
+  cursor: pointer; user-select: none;
+  background: transparent; color: var(--color-text-tertiary);
+  transition: background 0.12s, color 0.12s;
+}
+.pp-pref-opt + .pp-pref-opt { border-left: 0.5px solid var(--color-border-secondary); }
+.pp-pref-opt:hover { color: var(--color-text-secondary); }
+.pp-pref-opt.on { background: var(--color-text-primary); color: var(--color-background-primary); font-weight: 500; }
+.pp-pref-opt.on[data-val="no"] { background: #B53832; color: #fff; }
+
+/* Recent activity preview list */
+.pp-acts { display: flex; flex-direction: column; gap: 0; }
+.pp-act {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  font-size: 12px;
+}
+.pp-act:last-child { border-bottom: none; }
+.pp-act-icon {
+  width: 22px; height: 22px; border-radius: 4px;
+  background: var(--color-background-secondary);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--color-text-tertiary);
+}
+.pp-act-icon svg { width: 12px; height: 12px; }
+.pp-act-body { flex: 1; min-width: 0; }
+.pp-act-row1 { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.pp-act-typ { font-size: 10px; padding: 1px 6px; border-radius: 3px; background: var(--color-background-secondary); color: var(--color-text-secondary); font-weight: 500; }
+.pp-act-subj { font-weight: 500; color: var(--color-text-primary); }
+.pp-act-meta { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+
+/* LinkedIn link styling for in-card */
+.pp-field-v a[href^="https"] { color: #0866C2; }
+
+
+/* ------- Calendar page ------- */
+.cal-toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 16px 0 12px;
+  gap: 12px; flex-wrap: wrap;
+}
+.cal-nav { display: flex; align-items: center; gap: 8px; }
+.cal-nav-btn {
+  width: 28px; height: 28px;
+  border: 0.5px solid var(--color-border-secondary); border-radius: 6px;
+  background: var(--color-background-primary);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--color-text-secondary);
+  transition: background 0.12s, color 0.12s;
+}
+.cal-nav-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.cal-today {
+  font-size: 11px; font-weight: 500;
+  padding: 5px 12px;
+  border: 0.5px solid var(--color-border-secondary); border-radius: 6px;
+  background: var(--color-background-primary); color: var(--color-text-primary);
+  cursor: pointer; transition: background 0.12s;
+}
+.cal-today:hover { background: var(--color-background-secondary); }
+.cal-period { font-size: 16px; font-weight: 600; margin: 0 0 0 8px; }
+.cal-views { display: inline-flex; border: 0.5px solid var(--color-border-secondary); border-radius: 7px; overflow: hidden; padding: 2px; gap: 1px; background: var(--color-background-secondary); }
+.cal-vw { font-size: 11px; padding: 5px 12px; cursor: pointer; user-select: none; color: var(--color-text-secondary); border-radius: 5px; font-weight: 500; transition: background 0.12s, color 0.12s; }
+.cal-vw:hover { color: var(--color-text-primary); }
+.cal-vw.on { background: var(--color-background-primary); color: var(--color-text-primary); box-shadow: 0 0 0 0.5px var(--color-border-tertiary); }
+
+.cal-legend { display: flex; flex-wrap: wrap; gap: 16px; padding: 8px 0; margin-bottom: 8px; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 11px; color: var(--color-text-secondary); }
+.cal-lg { display: inline-flex; align-items: center; gap: 6px; }
+.cal-lg-sw { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+.cal-lg-hatch {
+  background-image: repeating-linear-gradient(45deg, #9CA3AF, #9CA3AF 2px, transparent 2px, transparent 5px);
+  background-color: rgba(156, 163, 175, 0.15);
+  border: 0.5px solid #9CA3AF;
+}
+
+/* Monthly view */
+.cal-month { border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; overflow: hidden; background: var(--color-background-primary); }
+.cal-dow {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  background: var(--color-background-secondary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.04em; text-transform: uppercase;
+}
+.cal-dow > div { padding: 8px 10px; text-align: left; border-right: 0.5px solid var(--color-border-tertiary); }
+.cal-dow > div:last-child { border-right: none; }
+.cal-weeks { display: flex; flex-direction: column; }
+.cal-week {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  position: relative;
+  min-height: 110px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.cal-week:last-child { border-bottom: none; }
+.cal-day {
+  border-right: 0.5px solid var(--color-border-tertiary);
+  padding: 6px 6px 4px; min-width: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.cal-day:last-child { border-right: none; }
+.cal-day.other-month { background: rgba(0,0,0,0.015); }
+.cal-day.other-month .cal-day-num { color: var(--color-text-tertiary); }
+.cal-day.today .cal-day-num { background: var(--color-text-primary); color: var(--color-background-primary); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+.cal-day-num { font-size: 11px; color: var(--color-text-secondary); font-weight: 500; padding: 2px; }
+.cal-day-stack { display: flex; flex-direction: column; gap: 2px; min-height: 0; flex: 1; }
+.cal-evt {
+  font-size: 10px; padding: 2px 6px; border-radius: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer; line-height: 1.4;
+  border-left: 2px solid transparent;
+}
+.cal-evt:hover { filter: brightness(0.96); }
+.cal-evt.conference { background: #DBEAFE; color: #1E40AF; border-left-color: #3B82F6; }
+.cal-evt.bdtrip    { background: #D1FAE5; color: #047857; border-left-color: #10B981; }
+.cal-evt.vacation  { background: #FEF3C7; color: #92400E; border-left-color: #F59E0B; }
+.cal-evt.notravel  { background-image: repeating-linear-gradient(45deg, rgba(156,163,175,0.25), rgba(156,163,175,0.25) 2px, rgba(243,244,246,0.5) 2px, rgba(243,244,246,0.5) 5px); color: #6B7280; border-left-color: #9CA3AF; }
+.cal-evt.blackout  { background: #FEE2E2; color: #991B1B; border-left-color: #EF4444; }
+.cal-evt.campaign  { background: #EDE9FE; color: #6D28D9; border-left-color: #8B5CF6; }
+.cal-evt.iro       { background: #FCE7F3; color: #9D174D; border-left-color: #EC4899; }
+.cal-day-more {
+  font-size: 10px; color: var(--color-text-tertiary); padding: 2px 6px; cursor: pointer;
+}
+.cal-day-more:hover { color: var(--color-text-primary); }
+
+/* Quarter view: 3 mini months */
+.cal-quarter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.cal-q-month { border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; overflow: hidden; background: var(--color-background-primary); }
+.cal-q-month-h { padding: 8px 12px; font-size: 12px; font-weight: 600; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+.cal-q-dow { display: grid; grid-template-columns: repeat(7, 1fr); padding: 4px 0; font-size: 9px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+.cal-q-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; padding: 4px; }
+.cal-q-day {
+  aspect-ratio: 1; min-height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--color-text-secondary);
+  position: relative; border-radius: 3px;
+  cursor: pointer;
+}
+.cal-q-day.today { background: var(--color-text-primary); color: var(--color-background-primary); font-weight: 600; }
+.cal-q-day.other-month { color: transparent; pointer-events: none; }
+.cal-q-day.has-evt { font-weight: 500; }
+.cal-q-day-dots { position: absolute; bottom: 3px; left: 0; right: 0; display: flex; justify-content: center; gap: 2px; }
+.cal-q-dot { width: 4px; height: 4px; border-radius: 50%; }
+
+/* Week view */
+.cal-week-view { border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; overflow: hidden; background: var(--color-background-primary); }
+.cal-week-head { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+.cal-week-head > div { padding: 12px 14px; border-right: 0.5px solid var(--color-border-tertiary); font-size: 11px; }
+.cal-week-head > div:last-child { border-right: none; }
+.cal-week-head .dow { color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
+.cal-week-head .dom { font-size: 18px; font-weight: 600; color: var(--color-text-primary); margin-top: 2px; }
+.cal-week-head .dom.today { background: var(--color-text-primary); color: var(--color-background-primary); border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+.cal-week-body { display: grid; grid-template-columns: repeat(7, 1fr); min-height: 360px; }
+.cal-week-body > div {
+  border-right: 0.5px solid var(--color-border-tertiary);
+  padding: 8px; display: flex; flex-direction: column; gap: 4px;
+}
+.cal-week-body > div:last-child { border-right: none; }
+.cal-week-body .cal-evt {
+  font-size: 11px; padding: 5px 9px; white-space: normal;
+  text-overflow: clip; line-height: 1.3;
+}
+.cal-week-body .cal-evt-loc { font-size: 10px; opacity: 0.75; margin-top: 1px; }
+
+/* List view */
+.cal-list { border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; overflow: hidden; background: var(--color-background-primary); }
+.cal-list-month { padding: 10px 14px; font-size: 12px; font-weight: 600; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); border-top: 0.5px solid var(--color-border-tertiary); }
+.cal-list-month:first-child { border-top: none; }
+.cal-list-row {
+  display: grid;
+  grid-template-columns: 110px 130px 1fr 200px;
+  gap: 12px; align-items: center;
+  padding: 9px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  font-size: 12px;
+  cursor: pointer;
+}
+.cal-list-row:hover { background: var(--color-background-secondary); }
+.cal-list-row:last-child { border-bottom: none; }
+.cal-list-date { font-variant-numeric: tabular-nums; color: var(--color-text-secondary); white-space: nowrap; }
+.cal-list-type { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--color-text-secondary); }
+.cal-list-type-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.cal-list-title { font-weight: 500; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cal-list-loc { color: var(--color-text-tertiary); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 900px) {
+  .cal-list-row { grid-template-columns: 100px 100px 1fr; }
+  .cal-list-loc { display: none; }
+  .cal-quarter { grid-template-columns: 1fr; }
+}
+
+
+.btn#ae-delete:hover { background: #FEE2E2; color: #991B1B; }
+
+
+/* ------- Conferences page ------- */
+.conf-grid { grid-template-columns:
+  minmax(240px, 2fr)     /* Conference */
+  minmax(140px, 1fr)     /* Organizer */
+  minmax(160px, 1.1fr)   /* Sectors */
+  minmax(165px, 0.95fr)  /* Date (with status hint) */
+  minmax(140px, 0.9fr)   /* Location */
+  minmax(95px, 0.5fr)    /* Attendees */
+  !important;
+}
+.cf-date-hint { display: inline-flex; align-items: center; gap: 6px; }
+.cf-date-hint .cf-date-stat {
+  font-size: 10px; font-style: italic;
+  color: var(--color-text-tertiary);
+}
+.cf-date-hint .cf-date-stat.estimated { color: #92400E; }
+.cf-date-hint .cf-date-stat.past { color: var(--color-text-tertiary); }
+.dv-tr.conf-grid.is-past { opacity: 0.55; }
+.dv-tr.conf-grid.is-past:hover { opacity: 0.85; }
+
+.cf-stat { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 500; }
+.cf-stat.confirmed { background: #DCF7E8; color: #137A4A; }
+.cf-stat.estimated { background: #FEF3C7; color: #92400E; font-style: italic; }
+.cf-date.estimated { font-style: italic; color: var(--color-text-tertiary); }
+.cf-att-split { font-size: 11px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.cf-att-split .conf-num { color: #137A4A; font-weight: 600; }
+.cf-att-split .like-num { color: var(--color-text-secondary); }
+.cf-att-split.zero { color: var(--color-text-tertiary); }
+
+.conf-grid .dv-td { overflow: hidden; }
+.cf-name-cell { font-weight: 500; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; display: inline-block; }
+.cf-org { color: var(--color-text-secondary); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; display: inline-block; }
+.cf-sectors { color: var(--color-text-secondary); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; display: inline-block; }
+.cf-date { color: var(--color-text-secondary); font-size: 11px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cf-loc { color: var(--color-text-secondary); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; display: inline-block; }
+.cf-att-count { font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; color: var(--color-text-primary); }
+.cf-att-count.zero { color: var(--color-text-tertiary); font-weight: 400; }
+
+/* Conference detail */
+.cf-hero {
+  padding: 18px 0 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  margin-bottom: 14px;
+}
+.cf-hero-main h1 { font-size: 20px; font-weight: 600; margin: 0 0 6px; }
+.cf-meta { font-size: 12px; color: var(--color-text-secondary); display: flex; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 8px; }
+.cf-meta .sep { color: var(--color-text-tertiary); }
+.cf-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.cf-pill { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--color-background-secondary); color: var(--color-text-secondary); font-weight: 500; }
+
+.cf-callout {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.05), rgba(59, 130, 246, 0.02));
+  border: 0.5px solid rgba(59, 130, 246, 0.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--color-text-primary);
+  display: flex; align-items: center; gap: 10px;
+}
+.cf-callout-icon { color: #1E40AF; flex-shrink: 0; }
+.cf-callout-icon svg { width: 18px; height: 18px; }
+.cf-callout-num { font-weight: 600; color: #1E40AF; }
+.cf-callout-breakdown { color: var(--color-text-secondary); font-size: 12px; margin-left: auto; }
+
+/* Conference attendees table */
+.cfa-grid { grid-template-columns:
+  minmax(64px, 0.4fr)    /* Ticker */
+  minmax(160px, 1.2fr)   /* Company */
+  minmax(110px, 0.7fr)   /* Sector */
+  minmax(70px, 0.45fr)   /* Mkt cap */
+  minmax(120px, 0.75fr)  /* Stage */
+  minmax(48px, 0.3fr)    /* Owner */
+  minmax(95px, 0.5fr)    /* Last contact */
+  minmax(120px, 0.7fr)   /* Attendance status (clickable) */
+  minmax(70px, 0.4fr)    /* Action */
+  !important;
+}
+.cfa-att {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  font-weight: 500; cursor: pointer; user-select: none;
+  transition: filter 0.12s;
+}
+.cfa-att:hover { filter: brightness(0.94); }
+.cfa-att.confirmed { background: #DCF7E8; color: #137A4A; }
+.cfa-att.likely { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.cfa-att svg { width: 9px; height: 9px; }
+.cfa-grid .dv-td { overflow: hidden; }
+.cfa-tk { font-family: ui-monospace, monospace; font-size: 11px; font-weight: 500; padding: 2px 6px; background: var(--color-background-secondary); border-radius: 3px; letter-spacing: 0.02em; }
+.cfa-open {
+  font-size: 11px; color: var(--color-text-tertiary);
+  display: inline-flex; align-items: center; gap: 4px;
+  cursor: pointer; padding: 3px 7px; border-radius: 4px;
+  transition: background 0.12s, color 0.12s;
+}
+.cfa-open:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.cfa-open svg { width: 11px; height: 11px; }
+
+
+.am-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; font-size: 12px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.am-row:last-child { border-bottom: none; }
+.am-source { color: var(--color-text-secondary); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.am-arrow { color: var(--color-text-tertiary); }
+.am-name { color: var(--color-text-primary); font-weight: 500; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.am-tag { font-size: 10px; padding: 1px 7px; border-radius: 3px; background: #DBEAFE; color: #1E40AF; font-weight: 500; }
+.am-unmatched-row .am-source { color: var(--color-text-primary); }
+
+
+.cc-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 6px; margin: 0 -6px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  border-radius: 4px;
+  transition: background 0.12s;
+}
+.cc-row:hover { background: var(--color-background-secondary); }
+.cc-row:last-child { border-bottom: none; }
+.cc-row-main { flex: 1; min-width: 0; }
+.cc-row-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc-row-meta { font-size: 11px; color: var(--color-text-tertiary); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+.cc-expand {
+  font-size: 11px; color: var(--color-text-tertiary);
+  cursor: pointer; padding: 8px 6px 4px; margin: 4px -6px 0;
+  text-align: left; transition: color 0.12s;
+  border-top: 0.5px solid var(--color-border-tertiary);
+}
+.cc-expand:hover { color: var(--color-text-primary); }
+
+
+.hq-pop-wrap { position: relative; display: inline-flex; align-items: center; gap: 6px; }
+.hq-pop-btn {
+  background: transparent; border: none; padding: 0;
+  color: inherit; font: inherit; cursor: pointer;
+  display: inline-flex; align-items: center;
+  border-radius: 3px; transition: color 0.12s;
+}
+.hq-pop-btn:hover { color: var(--color-text-primary); }
+.hq-pop {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 8px; padding: 12px 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  z-index: 30; min-width: 220px;
+}
+.hq-pop-h { font-size: 10px; color: var(--color-text-tertiary); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; font-weight: 500; }
+.hq-pop-addr { font-size: 12px; color: var(--color-text-primary); line-height: 1.55; }
+.hq-pop-link {
+  display: inline-flex; align-items: center; margin-top: 10px;
+  font-size: 11px; color: var(--color-text-secondary);
+  text-decoration: none;
+  padding-top: 8px; border-top: 0.5px solid var(--color-border-tertiary); width: 100%;
+}
+.hq-pop-link:hover { color: var(--color-text-primary); }
+
+
+
+.la-type-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+}
+.la-type-opt {
+  font-size: 11px; padding: 8px 6px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 5px; cursor: pointer;
+  text-align: center; user-select: none;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+}
+.la-type-opt:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.la-type-opt.on {
+  background: var(--color-text-primary); color: var(--color-background-primary);
+  border-color: var(--color-text-primary); font-weight: 500;
+}
+
+.la-chip-input {
+  display: flex; flex-wrap: wrap; gap: 5px; padding: 6px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 5px; min-height: 34px;
+  background: var(--color-background-primary);
+}
+.la-chip-input input {
+  flex: 1; min-width: 120px; border: none; outline: none;
+  font-size: 12px; background: transparent;
+  color: var(--color-text-primary); padding: 2px 4px;
+}
+.la-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; padding: 2px 4px 2px 8px;
+  background: var(--color-background-secondary);
+  border-radius: 999px;
+  color: var(--color-text-primary);
+}
+.la-chip-x {
+  width: 14px; height: 14px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--color-text-tertiary);
+}
+.la-chip-x:hover { background: var(--color-text-tertiary); color: #fff; }
+.la-chip-x svg { width: 9px; height: 9px; }
+
+.la-typeahead {
+  position: relative;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 5px;
+  margin-top: 4px;
+  max-height: 200px; overflow-y: auto;
+  background: var(--color-background-primary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.la-typeahead-row {
+  padding: 7px 10px; cursor: pointer;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+}
+.la-typeahead-row:last-child { border-bottom: none; }
+.la-typeahead-row:hover { background: var(--color-background-secondary); }
+.la-ta-name { color: var(--color-text-primary); font-weight: 500; }
+.la-ta-meta { color: var(--color-text-tertiary); font-size: 11px; margin-left: auto; }
+
 </style>
 </head>
 <body>
@@ -1181,7 +1755,7 @@ button { font-family: inherit; }
       <div class="top">
         <div class="bc">Companies<span class="bc-sep">/</span><span class="cur">Ridgeline Energy</span></div>
         <div class="acts">
-          <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Log activity</button>
+          <button class="btn" onclick="openLogActivityModal({company: 'Ridgeline Energy'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Log activity</button>
           <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>Add task</button>
           <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>Send email</button>
           <button class="btn" onclick="openCreateDeal('Ridgeline Energy')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New deal</button>
@@ -1217,7 +1791,13 @@ button { font-family: inherit; }
         <span class="strip-sep">·</span>
         <span class="strip-item"><span class="strip-l">Industry</span><span class="strip-v">Oil &amp; Gas Production</span></span>
         <span class="strip-sep">·</span>
-        <span class="strip-item"><span class="strip-l">HQ</span><span class="strip-v">Houston, TX, US</span></span>
+        <span class="strip-item hq-pop-wrap"><span class="strip-l">HQ</span><button class="strip-v hq-pop-btn" onclick="toggleHqPop(event)">Houston, TX, US<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px; height:10px; margin-left:4px; opacity:0.5;"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="hq-pop" id="hq-pop" hidden>
+            <div class="hq-pop-h">Headquarters</div>
+            <div class="hq-pop-addr">1500 Louisiana St<br/>Suite 4200<br/>Houston, TX 77002<br/>United States</div>
+            <a class="hq-pop-link" href="https://www.google.com/maps/search/?api=1&amp;query=1500+Louisiana+St+Houston+TX" target="_blank" rel="noopener">Open in Maps<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px; height:10px; margin-left:4px;"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+          </div>
+        </span>
         <span class="strip-sep">·</span>
         <a href="https://ridgelineenergy.com" class="strip-link" target="_blank" rel="noopener">ridgelineenergy.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
       </div>
@@ -1353,6 +1933,10 @@ button { font-family: inherit; }
           <span data-filter="meetings">Meetings</span>
           <span data-filter="notes">Notes</span>
           <span data-filter="tasks">Tasks</span>
+          <div class="tbl-search" style="margin-left:auto">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input id="act-search" type="search" placeholder="Search activities..." oninput="onActivitySearch(this.value)">
+          </div>
         </div>
       </div>
       <div class="tl">
@@ -1406,6 +1990,17 @@ button { font-family: inherit; }
           <div class="ev-b">Sent to 92 companies. Recipients here: Sarah Patel.</div>
         </div>
       </div>
+      <div class="card" style="margin-top:14px;">
+        <h3>
+          <span class="h-left">Conference attendance <span class="c" id="cc-up-count">0</span></span>
+          <span class="h-past">Past <span class="c" id="cc-past-count">0</span></span>
+        </h3>
+        <div id="company-conf-list">
+          <!-- populated by JS based on current company name -->
+        </div>
+      </div>
+
+
 
       </div><!-- /page-company -->
 
@@ -1481,6 +2076,10 @@ button { font-family: inherit; }
           <span class="dv-tab" data-cv-tab="stale">Stale <span class="dv-c" id="cv-count-stale">5</span></span>
           <span class="dv-tab" data-cv-tab="clients">Active clients <span class="dv-c" id="cv-count-clients">1</span></span>
           <span class="dv-tab" data-cv-tab="cold">Cold pipeline <span class="dv-c" id="cv-count-cold">2</span></span>
+          <div class="tbl-search">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input id="cv-search" type="search" placeholder="Search companies..." oninput="onCompaniesSearch(this.value)">
+          </div>
         </div>
 
         <div class="dv-pane">
@@ -1517,6 +2116,10 @@ button { font-family: inherit; }
           <span class="dv-tab" data-pv-tab="dnc">DNC list <span class="dv-c" id="pv-count-dnc">0</span></span>
           <span class="dv-tab" data-pv-tab="former">Former clients <span class="dv-c" id="pv-count-former">0</span></span>
           <span class="dv-tab" data-pv-tab="stale">Stale <span class="dv-c" id="pv-count-stale">0</span></span>
+          <div class="tbl-search">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input id="pv-search" type="search" placeholder="Search people..." oninput="onPeopleSearch(this.value)">
+          </div>
         </div>
 
         <div class="dv-pane">
@@ -1525,6 +2128,8 @@ button { font-family: inherit; }
               <div class="dv-th">Name</div>
               <div class="dv-th">Title</div>
               <div class="dv-th filterable" id="pv-th-company" onclick="toggleHeaderFilter(event, this, 'pv-company')"><span class="th-label">Company</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="pv-th-sector" onclick="toggleHeaderFilter(event, this, 'pv-sector')"><span class="th-label">Sector</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="pv-th-mc" onclick="toggleHeaderFilter(event, this, 'pv-mktcap')"><span class="th-label">Mkt cap</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
               <div class="dv-th filterable" id="pv-th-rel" onclick="toggleHeaderFilter(event, this, 'pv-relationship')"><span class="th-label">Relationship</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
               <div class="dv-th filterable" id="pv-th-owner" onclick="toggleHeaderFilter(event, this, 'pv-owner')"><span class="th-label">Owner</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
               <div class="dv-th filterable" id="pv-th-days" onclick="toggleHeaderFilter(event, this, 'pv-days')"><span class="th-label">Last contact</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
@@ -1535,6 +2140,264 @@ button { font-family: inherit; }
           </div>
         </div>
       </div><!-- /page-people -->
+
+      <div id="page-person" hidden>
+        <div class="top">
+          <div class="bc">
+            <span class="bc-l" onclick="showPage('page-people')" style="cursor:pointer">People</span>
+            <span class="bc-s">/</span>
+            <span class="cur" id="pp-bc-name">Person</span>
+          </div>
+          <div class="acts">
+            <button class="btn btn-g" onclick="openLogActivityModal({personId: currentPersonId})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Log activity</button>
+          </div>
+        </div>
+
+        <div class="pp-hero">
+          <div class="pp-av" id="pp-av">DC</div>
+          <div class="pp-hero-main">
+            <h1 id="pp-name">David Chen</h1>
+            <div class="pp-meta">
+              <span id="pp-title">Chief Financial Officer</span>
+              <span class="pp-sep">·</span>
+              <span id="pp-company-l">Ridgeline Energy</span>
+            </div>
+            <div class="pp-pills" id="pp-pills"></div>
+          </div>
+          <div class="own">
+            <span class="own-l">Owner</span>
+            <span class="av" id="pp-owner-av">SR</span>
+            <span id="pp-owner-name">Simon Rose</span>
+          </div>
+        </div>
+
+        <div class="pp-grid">
+          <div class="pp-col-main">
+            <div class="card">
+              <h3>Contact details</h3>
+              <div class="pp-fields">
+                <div class="pp-field">
+                  <div class="pp-field-l">Role</div>
+                  <div class="pp-field-v" id="pp-role">—</div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Email</div>
+                  <div class="pp-field-v"><a id="pp-email" href="#">—</a></div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">LinkedIn</div>
+                  <div class="pp-field-v"><a id="pp-linkedin" href="#" target="_blank" rel="noopener">—</a></div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Office</div>
+                  <div class="pp-field-v"><a id="pp-phone-office" href="#">—</a></div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Mobile</div>
+                  <div class="pp-field-v"><a id="pp-phone-mobile" href="#">—</a></div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Last contact</div>
+                  <div class="pp-field-v" id="pp-last">—</div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Relationship</div>
+                  <div class="pp-field-v" id="pp-rel">—</div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Archetype</div>
+                  <div class="pp-field-v" id="pp-arch">—</div>
+                </div>
+                <div class="pp-field">
+                  <div class="pp-field-l">Flags</div>
+                  <div class="pp-field-v" id="pp-flags">—</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Origination</h3>
+              <div id="pp-orig" style="font-size:12px; color:var(--color-text-primary); line-height:1.55; padding:4px 0;">—</div>
+            </div>
+
+            <div class="card">
+              <h3>Recent activity</h3>
+              <div class="pp-acts" id="pp-acts">
+                <!-- populated by JS -->
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Notes</h3>
+              <div style="font-size:12px; color:var(--color-text-tertiary); padding:8px 0;">
+                Click to add notes about this contact...
+              </div>
+            </div>
+          </div>
+
+          <div class="pp-col-side">
+            <div class="card pp-co-card">
+              <div class="pp-card-h">Company</div>
+              <div class="pp-co-name" id="pp-co-name">Ridgeline Energy</div>
+              <div class="pp-co-strip" id="pp-co-strip"></div>
+              <div class="pp-co-stage" id="pp-co-stage"></div>
+              <button class="pp-open-btn" onclick="goToCompanyFromPerson()">
+                Open company
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+
+            <div class="card">
+              <h3>Contact preferences</h3>
+              <div class="pp-prefs" id="pp-prefs">
+                <div class="pp-pref" data-pref="email">
+                  <div class="pp-pref-l">Email</div>
+                  <div class="pp-pref-toggle">
+                    <span class="pp-pref-opt on" data-val="yes">Allow</span>
+                    <span class="pp-pref-opt" data-val="no">Do not allow</span>
+                  </div>
+                </div>
+                <div class="pp-pref" data-pref="phone">
+                  <div class="pp-pref-l">Phone</div>
+                  <div class="pp-pref-toggle">
+                    <span class="pp-pref-opt on" data-val="yes">Allow</span>
+                    <span class="pp-pref-opt" data-val="no">Do not allow</span>
+                  </div>
+                </div>
+                <div class="pp-pref" data-pref="blast">
+                  <div class="pp-pref-l">Email blast</div>
+                  <div class="pp-pref-toggle">
+                    <span class="pp-pref-opt on" data-val="yes">Allow</span>
+                    <span class="pp-pref-opt" data-val="no">Do not allow</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="pp-card-h">Related contacts <span class="pp-card-c" id="pp-related-c">0</span></div>
+              <div id="pp-related"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /page-person -->
+
+      <div id="page-calendar" hidden>
+        <div class="top">
+          <div class="bc"><span class="cur">Calendar</span></div>
+          <div class="acts">
+            <button class="btn" onclick="openAddEventModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add event</button>
+          </div>
+        </div>
+
+        <div class="cal-toolbar">
+          <div class="cal-nav">
+            <button class="cal-nav-btn" onclick="calNav(-1)" title="Previous"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="cal-today" onclick="calToday()">Today</button>
+            <button class="cal-nav-btn" onclick="calNav(1)" title="Next"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <h2 class="cal-period" id="cal-period">March 2026</h2>
+          </div>
+          <div class="cal-views">
+            <span class="cal-vw" data-view="quarter">Quarter</span>
+            <span class="cal-vw on" data-view="month">Month</span>
+            <span class="cal-vw" data-view="week">Week</span>
+            <span class="cal-vw" data-view="list">List</span>
+          </div>
+        </div>
+
+        <div class="cal-legend">
+          <span class="cal-lg"><span class="cal-lg-sw" style="background:#3B82F6"></span>Conference</span>
+          <span class="cal-lg"><span class="cal-lg-sw" style="background:#10B981"></span>BD Trip</span>
+          <span class="cal-lg"><span class="cal-lg-sw" style="background:#F59E0B"></span>Vacation</span>
+          <span class="cal-lg"><span class="cal-lg-sw cal-lg-hatch"></span>No Travel</span>
+          <span class="cal-lg"><span class="cal-lg-sw" style="background:#EF4444"></span>Earnings Blackout</span>
+          <span class="cal-lg"><span class="cal-lg-sw" style="background:#EC4899"></span>IRO Dinner</span>
+        </div>
+
+        <div class="cal-content" id="cal-content"></div>
+      </div><!-- /page-calendar -->
+
+      <div id="page-conferences" hidden>
+        <div class="top">
+          <div class="bc"><span class="cur">Conferences</span></div>
+          <div class="acts">
+            <button class="btn" onclick="openAddConferenceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add conference</button>
+          </div>
+        </div>
+
+        <div class="dv-tabs">
+          <span class="dv-tab on" data-conf-tab="all">All <span class="dv-c" id="conf-c-all">0</span></span>
+          <span class="dv-tab" data-conf-tab="upcoming">Upcoming <span class="dv-c" id="conf-c-up">0</span></span>
+          <span class="dv-tab" data-conf-tab="estimated">Estimated <span class="dv-c" id="conf-c-est">0</span></span>
+          <span class="dv-tab" data-conf-tab="past">Past <span class="dv-c" id="conf-c-past">0</span></span>
+          <div class="tbl-search">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input id="conf-search" type="search" placeholder="Search conferences..." oninput="onConfSearch(this.value)">
+          </div>
+        </div>
+
+        <div class="dv-pane">
+          <div class="dv-table">
+            <div class="dv-thead conf-grid">
+              <div class="dv-th filterable" id="cv-th-name" onclick="toggleHeaderFilter(event, this, 'cv-name')"><span class="th-label">Conference</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="cv-th-organizer" onclick="toggleHeaderFilter(event, this, 'cv-organizer')"><span class="th-label">Organizer</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="cv-th-sectors" onclick="toggleHeaderFilter(event, this, 'cv-sectors')"><span class="th-label">Sectors</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="cv-th-date" onclick="toggleHeaderFilter(event, this, 'cv-date')"><span class="th-label">Date</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="cv-th-location" onclick="toggleHeaderFilter(event, this, 'cv-location')"><span class="th-label">Location</span><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="dv-th filterable" id="cv-th-attendees" onclick="toggleHeaderFilter(event, this, 'cv-attendees')" style="justify-content:flex-end"><svg class="hf-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg><span class="th-label">Attendees</span></div>
+            </div>
+            <div class="dv-tbody" id="conf-tbody"></div>
+          </div>
+        </div>
+      </div><!-- /page-conferences -->
+
+      <div id="page-conference" hidden>
+        <div class="top">
+          <div class="bc">
+            <span class="bc-l" onclick="showPage('page-conferences')" style="cursor:pointer">Conferences</span>
+            <span class="bc-s">/</span>
+            <span class="cur" id="cf-bc-name">Conference</span>
+          </div>
+          <div class="acts">
+            <button class="btn" onclick="goToConferenceInCalendar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>View in calendar</button>
+          </div>
+        </div>
+
+        <div class="cf-hero">
+          <div class="cf-hero-main">
+            <h1 id="cf-name">Conference name</h1>
+            <div class="cf-meta" id="cf-meta"></div>
+            <div class="cf-pills" id="cf-pills"></div>
+          </div>
+        </div>
+
+        <div class="cf-callout" id="cf-callout"></div>
+
+        <div class="dv-pane" style="margin-top:14px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin: 0 0 10px;">
+            <h3 style="font-size:12px; font-weight:500; color:var(--color-text-tertiary); letter-spacing:0.04em; text-transform:uppercase; margin: 0;">Attendees from your universe</h3>
+            <button class="btn" onclick="document.getElementById('cf-attendee-upload').click()" style="font-size:11px; padding:5px 10px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px; height:12px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload attendee list
+            </button>
+            <input id="cf-attendee-upload" type="file" accept=".csv,.txt" hidden onchange="handleAttendeeUpload(event)">
+          </div>
+          <div class="dv-table">
+            <div class="dv-thead cfa-grid">
+              <div class="dv-th">Ticker</div>
+              <div class="dv-th">Company</div>
+              <div class="dv-th">Sector</div>
+              <div class="dv-th">Mkt cap</div>
+              <div class="dv-th">Stage</div>
+              <div class="dv-th">Owner</div>
+              <div class="dv-th">Last contact</div>
+              <div class="dv-th">Attendance</div>
+              <div class="dv-th"></div>
+            </div>
+            <div class="dv-tbody" id="cfa-tbody"></div>
+          </div>
+        </div>
+      </div><!-- /page-conference -->
 
 
 
@@ -1606,7 +2469,6 @@ button { font-family: inherit; }
             <option value="SR">Simon Rose</option>
             <option value="BS">Brian Smith</option>
             <option value="BM">Blair Mutschler</option>
-            <option value="SG">Shawna Giust</option>
             <option value="KS">Karen Snow</option>
           </select>
         </div>
@@ -1688,13 +2550,33 @@ const DEALS = [
   { id: 4, company: "Aurora Therapeutics", ticker: "AURA", hq: "US", deal: "Investor access", type: "Annual retainer", stage: "In conversation", value: 250000, currency: "USD", owner: "BS", ownerName: "Brian Smith", days: 5, stalledDays: 0, temperature: "Green Flag (High Intent)", nextStep: "Schedule follow-up with IRO" },
   { id: 5, company: "Borealis Mining", ticker: "BORM", hq: "CA", deal: "Investor access", type: "Annual retainer", stage: "Contract", value: 250000, currency: "USD", owner: "BS", ownerName: "Brian Smith", days: 12, stalledDays: 0, temperature: "Green Flag (Strong Fit)", nextStep: "Schedule C-suite meeting" },
   { id: 6, company: "Crestwave Capital", ticker: "CRWV", hq: "US", deal: "Investor access", type: "Annual retainer", stage: "Proposal", value: 250000, currency: "USD", owner: "BM", ownerName: "Blair Mutschler", days: 18, stalledDays: 0, temperature: "Green Flag (High Intent)", nextStep: "Schedule follow-up with IRO" },
-  { id: 7, company: "Helix Pharma", ticker: "HXPH", hq: "US", deal: "Investor access", type: "Annual retainer", stage: "Proposal", value: 250000, currency: "USD", owner: "SG", ownerName: "Shawna Giust", days: 62, stalledDays: 62, temperature: "Red Flag (No Budget)", nextStep: "Closed / not pursuing" },
+  { id: 7, company: "Helix Pharma", ticker: "HXPH", hq: "US", deal: "Investor access", type: "Annual retainer", stage: "Proposal", value: 250000, currency: "USD", owner: "BM", ownerName: "Blair Mutschler", days: 62, stalledDays: 62, temperature: "Red Flag (No Budget)", nextStep: "Closed / not pursuing" },
   { id: 8, company: "Lumen Biosciences", ticker: "LUMN", hq: "US", deal: "Investor day", type: "Project", stage: "Won", value: 250000, currency: "USD", owner: "KS", ownerName: "Karen Snow", days: 3, stalledDays: 0, temperature: "Green Flag (Strong Fit)", nextStep: "Schedule C-suite meeting" },
   { id: 9, company: "Meridian Logistics", ticker: "MRDL", hq: "CA", deal: "Investor access", type: "Annual retainer", stage: "In conversation", value: 250000, currency: "USD", owner: "SR", ownerName: "Simon Rose", days: 8, stalledDays: 0, temperature: "Green Flag (Strong Fit)", nextStep: "Schedule C-suite meeting" },
   { id: 10, company: "Northwind Resources", ticker: "NWND", hq: "AU", deal: "Investor access", type: "Annual retainer", stage: "Proposal", value: 250000, currency: "USD", owner: "BS", ownerName: "Brian Smith", days: 22, stalledDays: 0, temperature: "Yellow Flag (Timing Concern)", nextStep: "Plan in-person visit" }
 ];
 
 const STAGE_ORDER = { "In conversation": 0, "Proposal": 1, "Contract": 2, "Won": 3, "Lost": 4 };
+
+// Effective rank for default deal-flow sort: In convo → Proposal → Stalled (any stage) → Contract → Won → Lost
+// Stalled deals slot between active Proposal-stage and Contract-stage work, since they need attention
+// but aren't moving forward.
+function dealStageRank(d) {
+  const isStalled = (d.stalledDays || 0) > 0;
+  // Active (non-stalled) tiers
+  if (!isStalled) {
+    if (d.stage === "In conversation") return 0;
+    if (d.stage === "Proposal")        return 1;
+    if (d.stage === "Contract")        return 3;
+    if (d.stage === "Won")             return 4;
+    if (d.stage === "Lost")            return 5;
+  }
+  // Stalled tier (between Proposal and Contract). Lost-stalled and Won-stalled don't really exist
+  // in practice but if they did, treat them as their stage tier.
+  if (d.stage === "Lost") return 5;
+  if (d.stage === "Won")  return 4;
+  return 2; // any non-terminal stage that's stalled
+}
 
 const STAGE_COLORS = {
   "In conversation": { dot: "#8B5CF6", text: "#6D28D9" },
@@ -1897,7 +2779,7 @@ const COMPANY_DATA = [
   { id: 2,  company: "Aurora Therapeutics",   ticker: "AURA", mktCap: "$2.8B", sector: "Biotech",          hq: "Boston, US",    stage: "Engaged",        owner: "BS", ownerName: "Brian Smith",     days: 5,   tasks: 2, tasksOverdue: 0, nextEarn: "Aug 5" },
   { id: 3,  company: "Borealis Mining",       ticker: "BORM", mktCap: "$1.9B", sector: "Mining",           hq: "Toronto, CA",   stage: "Engaged",        owner: "BS", ownerName: "Brian Smith",     days: 12,  tasks: 1, tasksOverdue: 0, nextEarn: "Jul 17" },
   { id: 4,  company: "Crestwave Capital",     ticker: "CRWV", mktCap: "$890M", sector: "Financial",        hq: "New York, US",  stage: "Engaged",        owner: "BM", ownerName: "Blair Mutschler", days: 18,  tasks: 0, tasksOverdue: 0, nextEarn: "Aug 12" },
-  { id: 5,  company: "Helix Pharma",          ticker: "HXPH", mktCap: "$6.1B", sector: "Pharma",           hq: "Basel, US",     stage: "Declined",       owner: "SG", ownerName: "Shawna Giust",    days: 62,  tasks: 0, tasksOverdue: 0, nextEarn: "Jul 30" },
+  { id: 5,  company: "Helix Pharma",          ticker: "HXPH", mktCap: "$6.1B", sector: "Pharma",           hq: "Basel, US",     stage: "Declined",       owner: "BM", ownerName: "Blair Mutschler",    days: 62,  tasks: 0, tasksOverdue: 0, nextEarn: "Jul 30" },
   { id: 6,  company: "Lumen Biosciences",     ticker: "LUMN", mktCap: "$3.4B", sector: "Biotech",          hq: "San Diego, US", stage: "Current client", owner: "KS", ownerName: "Karen Snow",      days: 3,   tasks: 2, tasksOverdue: 0, nextEarn: "Aug 7" },
   { id: 7,  company: "Meridian Logistics",    ticker: "MRDL", mktCap: "$1.2B", sector: "Industrials",      hq: "Vancouver, CA", stage: "Engaged",        owner: "SR", ownerName: "Simon Rose",      days: 8,   tasks: 1, tasksOverdue: 0, nextEarn: "Jul 24" },
   { id: 8,  company: "Northwind Resources",   ticker: "NWND", mktCap: "$720M", sector: "Mining",           hq: "Sydney, AU",    stage: "Engaged",        owner: "BS", ownerName: "Brian Smith",     days: 22,  tasks: 1, tasksOverdue: 1, nextEarn: "Aug 19" },
@@ -1905,7 +2787,7 @@ const COMPANY_DATA = [
   { id: 10, company: "Sapphire Health",       ticker: "SPHR", mktCap: "$2.1B", sector: "Health services",  hq: "Chicago, US",   stage: "Aware",          owner: "KS", ownerName: "Karen Snow",      days: 32,  tasks: 0, tasksOverdue: 0, nextEarn: "Jul 28" },
   { id: 11, company: "Vanguard Resources",    ticker: "VANG", mktCap: "$5.8B", sector: "Energy minerals",  hq: "Houston, US",   stage: "Past client",    owner: "SR", ownerName: "Simon Rose",      days: 84,  tasks: 0, tasksOverdue: 0, nextEarn: "Aug 1" },
   { id: 12, company: "Cascade Foods",         ticker: "CSCF", mktCap: "$940M", sector: "Consumer staples", hq: "Toronto, CA",   stage: "Dormant",        owner: "BM", ownerName: "Blair Mutschler", days: 156, tasks: 0, tasksOverdue: 0, nextEarn: "Aug 22" },
-  { id: 13, company: "Phoenix Capital",       ticker: "PHXC", mktCap: "$3.2B", sector: "Financial",        hq: "Phoenix, US",   stage: "Declined",       owner: "SG", ownerName: "Shawna Giust",    days: 47,  tasks: 0, tasksOverdue: 0, nextEarn: "Jul 25" },
+  { id: 13, company: "Phoenix Capital",       ticker: "PHXC", mktCap: "$3.2B", sector: "Financial",        hq: "Phoenix, US",   stage: "Declined",       owner: "BM", ownerName: "Blair Mutschler",    days: 47,  tasks: 0, tasksOverdue: 0, nextEarn: "Jul 25" },
   { id: 14, company: "Atlas Materials",       ticker: "ATLM", mktCap: "$480M", sector: "Materials",        hq: "Pittsburgh, US",stage: "Lost",           owner: "BS", ownerName: "Brian Smith",     days: 412, tasks: 0, tasksOverdue: 0, nextEarn: "Aug 9" },
   { id: 15, company: "Beacon Tech",           ticker: "BCNT", mktCap: "$7.4B", sector: "Technology",       hq: "London, UK",    stage: "Engaged",        owner: "KS", ownerName: "Karen Snow",      days: 6,   tasks: 3, tasksOverdue: 1, nextEarn: "Jul 31" }
 ];
@@ -1921,10 +2803,15 @@ let companiesState = {
 };
 
 function getFilteredCompanies() {
+  const q = (companiesState.search || '').toLowerCase();
   return COMPANY_DATA.filter(c => {
     if (companiesState.savedView === 'stale' && c.days < 60) return false;
     if (companiesState.savedView === 'clients' && c.stage !== 'Current client') return false;
     if (companiesState.savedView === 'cold' && !['Cold', 'Aware'].includes(c.stage)) return false;
+    if (q) {
+      const hay = [c.company, c.ticker, c.sector, c.hq, c.stage, c.ownerName].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
     if (!passesColumnFilters('companies', c)) return false;
     return true;
   });
@@ -2004,12 +2891,15 @@ setupCompanyTabs();
 
 // ========== PAGE NAVIGATION ==========
 function showPage(pageId) {
-  document.querySelectorAll('#page-company, #page-deals, #page-companies, #page-people').forEach(p => {
+  document.querySelectorAll('#page-company, #page-deals, #page-companies, #page-people, #page-person, #page-calendar, #page-conferences, #page-conference').forEach(p => {
     p.hidden = (p.id !== pageId);
   });
   if (pageId === 'page-deals') { renderDeals(); refreshAllHeaderIndicators(); }
   if (pageId === 'page-companies') { renderCompanies(); refreshAllHeaderIndicators(); }
   if (pageId === 'page-people') { renderPeople(); refreshAllHeaderIndicators(); }
+  if (pageId === 'page-calendar') { calState.date = new Date(); renderCalendar(); }
+  if (pageId === 'page-conferences') { renderConferences(); refreshAllHeaderIndicators(); }
+  if (pageId === 'page-company') { _ccExpanded = { upcoming: false, past: false }; renderCompanyConferenceCard('Ridgeline Energy'); }
 }
 
 // Wire up sidebar navigation
@@ -2022,6 +2912,8 @@ document.querySelectorAll('.nav-item').forEach(item => {
     if (label === 'Deals') showPage('page-deals');
     else if (label === 'Companies') showPage('page-companies');
     else if (label === 'People') showPage('page-people');
+    else if (label === 'Calendar') showPage('page-calendar');
+    else if (label === 'Conferences') showPage('page-conferences');
   });
 });
 
@@ -2059,6 +2951,8 @@ const HEADER_FILTERS = {
   'deals-stage': {
     table: 'deals', label: 'Stage', type: 'cat',
     valueOf: (d) => d.stage,
+    sortValueOf: (d) => dealStageRank(d),  // pipeline-flow order, with stalled as its own tier
+    sortType: 'num',                        // sortValueOf returns a number, so compare numerically
     options: () => ['In conversation', 'Proposal', 'Contract', 'Won', 'Lost'].map(s => ({ value: s, label: s, dot: STAGE_COLORS[s]?.dot }))
   },
   'deals-owner': {
@@ -2155,12 +3049,16 @@ function applySort(table, items) {
     for (const { col, dir } of sort) {
       const cfg = HEADER_FILTERS[col];
       if (!cfg) continue;
-      const va = cfg.valueOf(a);
-      const vb = cfg.valueOf(b);
+      // If a custom sortValueOf is provided, use it (and its sortType) for sorting
+      // while keeping valueOf as the source for filtering & display
+      const sortValOf = cfg.sortValueOf || cfg.valueOf;
+      const sortType = cfg.sortType || cfg.type;
+      const va = sortValOf(a);
+      const vb = sortValOf(b);
       let cmp;
-      if (cfg.type === 'num') {
+      if (sortType === 'num') {
         cmp = (Number(va) || 0) - (Number(vb) || 0);
-      } else if (cfg.type === 'date') {
+      } else if (sortType === 'date') {
         // Parse "Jul 23" style — close enough for mock data sorting
         cmp = parseShortDate(va) - parseShortDate(vb);
       } else {
@@ -2173,9 +3071,12 @@ function applySort(table, items) {
 }
 
 function parseShortDate(s) {
-  if (!s) return 0;
+  if (s == null || s === '') return 0;
+  // If we got a number (e.g. an ISO date already converted to a timestamp), use it directly
+  if (typeof s === 'number' && !isNaN(s)) return s;
+  const str = String(s);
   const months = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
-  const m = s.match(/(\w{3})\s*(\d+)/);
+  const m = str.match(/(\w{3})\s*(\d+)/);
   if (!m) return 0;
   return (months[m[1]] || 0) * 100 + parseInt(m[2], 10);
 }
@@ -2191,7 +3092,13 @@ function toggleHeaderFilter(e, headerEl, filterId) {
   if (!cfg) return;
 
   const tableKey = cfg.table;
-  const renderFn = tableKey === 'deals' ? renderDeals : renderCompanies;
+  const renderFn = (
+    tableKey === 'deals' ? renderDeals :
+    tableKey === 'companies' ? renderCompanies :
+    tableKey === 'people' ? renderPeople :
+    tableKey === 'conferences' ? renderConferences :
+    () => {}
+  );
 
   const menu = document.createElement('div');
   menu.className = 'hf-menu open';
@@ -2428,8 +3335,8 @@ const PEOPLE_DATA = [
   { id: 8,  name: "Priya Nair",       role: "CFO",         title: "Chief Financial Officer",     company: "Crestwave Capital",    relationship: "Engaged",       flags: [],                archetype: "",    owner: "BM", ownerName: "Blair Mutschler",  days: 18,  email: "priya.nair@crestwave.com",            linkedin: "priyanair" },
 
   // Helix Pharma (Declined)
-  { id: 9,  name: "Thomas Reinhardt", role: "CFO",         title: "Chief Financial Officer",     company: "Helix Pharma",         relationship: "Cold",          flags: [],                archetype: "Decision-maker",    owner: "SG", ownerName: "Shawna Giust",     days: 62,  email: "t.reinhardt@helixpharma.com",         linkedin: "treinhardt" },
-  { id: 10, name: "Anna Whitfield",   role: "Head of IR",  title: "Head of Investor Relations",  company: "Helix Pharma",         relationship: "Aware",         flags: [],                archetype: "",        owner: "SG", ownerName: "Shawna Giust",     days: 70,  email: "anna.whitfield@helixpharma.com",      linkedin: "annawhitfield" },
+  { id: 9,  name: "Thomas Reinhardt", role: "CFO",         title: "Chief Financial Officer",     company: "Helix Pharma",         relationship: "Cold",          flags: [],                archetype: "Decision-maker",    owner: "BM", ownerName: "Blair Mutschler",     days: 62,  email: "t.reinhardt@helixpharma.com",         linkedin: "treinhardt" },
+  { id: 10, name: "Anna Whitfield",   role: "Head of IR",  title: "Head of Investor Relations",  company: "Helix Pharma",         relationship: "Aware",         flags: [],                archetype: "",        owner: "BM", ownerName: "Blair Mutschler",     days: 70,  email: "anna.whitfield@helixpharma.com",      linkedin: "annawhitfield" },
 
   // Lumen Biosciences (Current client)
   { id: 11, name: "Michael O'Brien",  role: "CEO",         title: "Chief Executive Officer",     company: "Lumen Biosciences",    relationship: "Active client", flags: [],                archetype: "Decision-maker",    owner: "KS", ownerName: "Karen Snow",       days: 4,   email: "michael@lumenbio.com",                linkedin: "mikeobrien-lumen" },
@@ -2457,7 +3364,7 @@ const PEOPLE_DATA = [
   { id: 21, name: "Pierre Lefebvre",  role: "CFO",         title: "Chief Financial Officer",     company: "Cascade Foods",        relationship: "Cold",          flags: [],                archetype: "",    owner: "BM", ownerName: "Blair Mutschler",  days: 156, email: "p.lefebvre@cascadefoods.ca",          linkedin: "plefebvre" },
 
   // Phoenix Capital (Declined)
-  { id: 22, name: "Vivian Chao",      role: "CFO",         title: "Chief Financial Officer",     company: "Phoenix Capital",      relationship: "Cold",          flags: ["DNC"],           archetype: "Decision-maker",    owner: "SG", ownerName: "Shawna Giust",     days: 47,  email: "vivian.chao@phoenixcap.com",          linkedin: "vivianchao" },
+  { id: 22, name: "Vivian Chao",      role: "CFO",         title: "Chief Financial Officer",     company: "Phoenix Capital",      relationship: "Cold",          flags: ["DNC"],           archetype: "Decision-maker",    owner: "BM", ownerName: "Blair Mutschler",     days: 47,  email: "vivian.chao@phoenixcap.com",          linkedin: "vivianchao" },
 
   // Atlas Materials (Lost)
   { id: 23, name: "Bruno Salieri",    role: "CFO",         title: "Former CFO",                  company: "Atlas Materials",      relationship: "Cold",          flags: [],                archetype: "Decision-maker",    owner: "BS", ownerName: "Brian Smith",      days: 412, email: "bruno.salieri@atlas-materials.com",   linkedin: "brunosalieri" },
@@ -2470,12 +3377,18 @@ const PEOPLE_DATA = [
 let peopleState = { savedView: 'all' };
 
 function getFilteredPeople() {
+  const q = (peopleState.search || '').toLowerCase();
   return PEOPLE_DATA.filter(p => {
     if (peopleState.savedView === 'active' && p.relationship !== 'Active client') return false;
     if (peopleState.savedView === 'dnc' && !(p.flags && p.flags.includes('DNC'))) return false;
     if (peopleState.savedView === 'former' && !(p.flags && p.flags.includes('Former client'))) return false;
     if (peopleState.savedView === 'stale' && p.days < 90) return false;
     if (!passesColumnFilters('people', p)) return false;
+    if (q) {
+      const co = COMPANY_DATA.find(c => c.company === p.company) || {};
+      const hay = [p.name, p.title, p.role, p.company, co.sector, co.mktCap, p.relationship, p.ownerName, ...(p.flags || [])].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
     return true;
   });
 }
@@ -2493,13 +3406,16 @@ function renderPeople() {
 
   tbody.innerHTML = people.map(p => {
     const rc = PERSON_RELATIONSHIP_COLORS[p.relationship] || { dot: '#9CA3AF', text: '#6B7280' };
+    const co = COMPANY_DATA.find(c => c.company === p.company) || {};
     const cls = ['dv-tr', 'pv-grid'];
     if (p.flags && p.flags.includes('DNC')) cls.push('cv-stale-row');
 
-    return `<div class="${cls.join(' ')}" data-person-id="${p.id}">
+    return `<div class="${cls.join(' ')}" data-person-id="${p.id}" onclick="openPersonDetail(${p.id})" style="cursor:pointer">
       <div class="dv-td"><span class="pv-name" title="${p.name}">${p.name}</span></div>
       <div class="dv-td"><span class="pv-title" title="${p.title}">${p.title}</span></div>
       <div class="dv-td"><span class="pv-company" title="${p.company}">${p.company}</span></div>
+      <div class="dv-td"><span class="pv-sector" title="${co.sector || ''}">${co.sector || '—'}</span></div>
+      <div class="dv-td"><span class="pv-mc">${co.mktCap || '—'}</span></div>
       <div class="dv-td"><span class="pv-rel-pill" style="color:${rc.text}"><span class="pv-rel-dot" style="background:${rc.dot}"></span>${p.relationship}</span></div>
       <div class="dv-td"><span class="dv-av" title="${p.ownerName}">${p.owner}</span></div>
       <div class="dv-td"><span class="dv-days ${daysClass(p.days)}">${p.days === 0 ? '—' : p.days + 'd'}</span></div>
@@ -2524,6 +3440,1313 @@ function updatePeopleStats() {
   document.getElementById('pv-count-stale').textContent = stale;
 }
 
+
+
+
+// ----- Mock helpers for the contact detail page -----
+function mockPhone(seed, kind) {
+  // Deterministic-ish phone numbers based on id + kind
+  const base = (seed * 7919) % 9999;
+  const area = kind === 'office' ? '212' : '917';
+  const a = String(((seed * 31) % 900) + 100);
+  const b = String(((seed * 13 + (kind === 'office' ? 0 : 41)) % 9000) + 1000);
+  return `+1 (${area}) ${a}-${b}`;
+}
+
+const ORIGINATIONS = [
+  'Conference intro',
+  'Personal connection (colleague)',
+  'Cold outbound',
+  'Inbound — referred by client',
+  'Met at industry event',
+  'Existing relationship',
+  'Warm intro from advisor'
+];
+
+function mockOrigination(seed) {
+  return ORIGINATIONS[seed % ORIGINATIONS.length];
+}
+
+function mockRecentActivity(p) {
+  const mailIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>';
+  const phoneIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+  const meetIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+  const days = p.days || 1;
+  return [
+    {
+      type: 'Email out', icon: mailIcon,
+      subject: 'Following up on our last conversation',
+      meta: `${days}d ago · ${p.ownerName}`
+    },
+    {
+      type: 'Email in', icon: mailIcon,
+      subject: `Re: ${p.company} IR strategy`,
+      meta: `${days + 4}d ago`
+    },
+    {
+      type: 'Call', icon: phoneIcon,
+      subject: 'Intro call — 25 min',
+      meta: `${days + 14}d ago · ${p.ownerName}`
+    }
+  ];
+}
+
+// Toggle handler for contact preferences
+document.addEventListener('click', (e) => {
+  const opt = e.target.closest('#pp-prefs .pp-pref-opt');
+  if (!opt) return;
+  const group = opt.closest('.pp-pref-toggle');
+  group.querySelectorAll('.pp-pref-opt').forEach(o => o.classList.remove('on'));
+  opt.classList.add('on');
+});
+
+
+
+// ----- Conference column filters / sorts -----
+HEADER_FILTERS['cv-name'] = { table: 'conferences', label: 'Conference', type: 'cat', valueOf: (c) => c.name };
+HEADER_FILTERS['cv-organizer'] = { table: 'conferences', label: 'Organizer', type: 'cat', valueOf: (c) => c.organizer };
+HEADER_FILTERS['cv-sectors'] = { table: 'conferences', label: 'Sectors', type: 'cat', valueOf: (c) => c.sectors.join(', '), options: () => SECTORS.map(s => ({ value: s, label: s })) };
+HEADER_FILTERS['cv-date'] = { table: 'conferences', label: 'Date', type: 'date', valueOf: (c) => new Date(c.dateStart + 'T00:00:00').getTime() };
+HEADER_FILTERS['cv-location'] = { table: 'conferences', label: 'Location', type: 'cat', valueOf: (c) => c.location };
+HEADER_FILTERS['cv-attendees'] = { table: 'conferences', label: 'Attendees', type: 'num', valueOf: (c) => getConferenceAttendees(c).length };
+HEADER_FILTERS['cv-status-derived'] = {
+  table: 'conferences', label: 'Status', type: 'cat',
+  valueOf: (c) => {
+    const today = new Date(); today.setHours(0,0,0,0);
+    if (new Date(c.dateEnd + 'T00:00:00') < today) return 'Past';
+    if (c.status === 'estimated') return 'Estimated';
+    return 'Confirmed';
+  },
+  options: () => [{ value: 'Confirmed', label: 'Confirmed' }, { value: 'Estimated', label: 'Estimated' }, { value: 'Past', label: 'Past' }]
+};
+
+// ========== CALENDAR ==========
+const CAL_TYPES = {
+  conference: { label: 'Conference',         dot: '#3B82F6', cls: 'conference' },
+  bdtrip:     { label: 'BD Trip',            dot: '#10B981', cls: 'bdtrip' },
+  vacation:   { label: 'Vacation',           dot: '#F59E0B', cls: 'vacation' },
+  notravel:   { label: 'No Travel',          dot: '#9CA3AF', cls: 'notravel' },
+  blackout:   { label: 'Earnings Blackout',  dot: '#EF4444', cls: 'blackout' },
+  campaign:   { label: 'Email Campaign',     dot: '#8B5CF6', cls: 'campaign' },
+  iro:        { label: 'IRO Dinner',         dot: '#EC4899', cls: 'iro' }
+};
+
+let CAL_EVENTS = [
+  // March 2026
+  { id: 1,  type: 'conference', title: 'PDAC Conference', start: '2026-03-01', end: '2026-03-04', location: 'Toronto, Canada' },
+  { id: 3,  type: 'vacation',   title: 'SR Vacation',     start: '2026-03-09', end: '2026-03-16', location: '' },
+  { id: 4,  type: 'iro',        title: 'NIRI New York IRO Dinner', start: '2026-03-19', end: '2026-03-19', location: 'Centurion New York' },
+  { id: 5,  type: 'bdtrip',     title: 'Europe BD Trip',  start: '2026-03-23', end: '2026-03-27', location: 'Europe' },
+  // April 2026
+  { id: 7,  type: 'conference', title: 'Mining Forum Europe', start: '2026-04-13', end: '2026-04-15', location: 'Zurich, Switzerland' },
+  { id: 8,  type: 'bdtrip',     title: 'Potential Europe BD Trip', start: '2026-04-13', end: '2026-04-17', location: 'Europe' },
+  { id: 9,  type: 'blackout',   title: 'Q1 Earnings Blackout: US', start: '2026-04-15', end: '2026-04-30', location: '' },
+  { id: 10, type: 'bdtrip',     title: 'Australia BD Trip', start: '2026-04-27', end: '2026-05-08', location: 'Australia' },
+  // May 2026
+  { id: 11, type: 'blackout',   title: 'Q1 Earnings Blackout: Europe', start: '2026-05-01', end: '2026-05-15', location: '' },
+  { id: 13, type: 'notravel',   title: 'SR No Travel',     start: '2026-05-15', end: '2026-06-20', location: '' },
+  { id: 14, type: 'blackout',   title: 'Q1 Earnings Blackout: Australia', start: '2026-05-15', end: '2026-05-31', location: '' },
+  { id: 15, type: 'bdtrip',     title: 'Europe BD Trip (Paris)', start: '2026-05-18', end: '2026-05-22', location: 'Paris, France' },
+  { id: 16, type: 'iro',        title: 'NIRI Philly IRO Dinner', start: '2026-05-28', end: '2026-05-28', location: 'Capital Grille, Philly' },
+  // June 2026
+  { id: 17, type: 'conference', title: 'CIRI Annual Conference', start: '2026-06-17', end: '2026-06-19', location: 'Saint-Sauveur, QC' },
+  { id: 18, type: 'conference', title: 'IR Impact Awards (IR Think Tank)', start: '2026-06-18', end: '2026-06-18', location: 'London, UK' },
+  { id: 19, type: 'conference', title: 'IR Society Annual Conference', start: '2026-06-24', end: '2026-06-24', location: 'London, UK' },
+  // July 2026
+  { id: 20, type: 'blackout',   title: 'Q2 Earnings Blackout: US', start: '2026-07-15', end: '2026-07-31', location: '' },
+  // August 2026
+  { id: 21, type: 'blackout',   title: 'Q2 Earnings Blackout: Europe', start: '2026-08-01', end: '2026-08-15', location: '' },
+  { id: 22, type: 'conference', title: 'Diggers & Dealers Conference', start: '2026-08-03', end: '2026-08-05', location: 'Kalgoorlie, Australia' },
+  { id: 23, type: 'conference', title: 'NIRI SW Regional Conference', start: '2026-08-13', end: '2026-08-14', location: 'Dallas, TX' },
+  { id: 24, type: 'blackout',   title: 'Q2 Earnings Blackout: Australia', start: '2026-08-15', end: '2026-08-31', location: '' },
+  // September 2026
+  { id: 25, type: 'conference', title: 'Precious Metals Summit Beaver Creek', start: '2026-09-22', end: '2026-09-25', location: 'Beaver Creek, CO' },
+  { id: 26, type: 'conference', title: 'Mining Forum Americas', start: '2026-09-27', end: '2026-09-30', location: 'Colorado Springs, CO' },
+  // October 2026
+  { id: 27, type: 'bdtrip',     title: 'CIRI IRO Leadership Day', start: '2026-10-07', end: '2026-10-07', location: 'Toronto, ON' },
+  { id: 28, type: 'blackout',   title: 'Q3 Earnings Blackout: US', start: '2026-10-15', end: '2026-10-31', location: '' },
+  // November 2026
+  { id: 29, type: 'blackout',   title: 'Q3 Earnings Blackout: Europe', start: '2026-11-01', end: '2026-11-15', location: '' },
+  { id: 30, type: 'conference', title: 'Precious Metals Summit Zurich', start: '2026-11-09', end: '2026-11-11', location: 'Zurich, Switzerland' },
+  { id: 31, type: 'blackout',   title: 'Q3 Earnings Blackout: Australia', start: '2026-11-15', end: '2026-11-30', location: '' },
+  // January 2027
+  { id: 32, type: 'conference', title: 'Future Minerals Forum', start: '2027-01-12', end: '2027-01-14', location: 'Riyadh, Saudi Arabia' },
+  { id: 33, type: 'blackout',   title: 'Q4 Earnings Blackout: US', start: '2027-01-15', end: '2027-01-31', location: '' },
+  // February 2027
+  { id: 34, type: 'blackout',   title: 'Q4 Earnings Blackout: Europe', start: '2027-02-01', end: '2027-02-15', location: '' },
+  { id: 35, type: 'blackout',   title: 'Q4 Earnings Blackout: Australia', start: '2027-02-15', end: '2027-02-28', location: '' }
+];
+
+let calState = {
+  view: 'month',
+  date: new Date() // default to today
+};
+
+// Date helpers
+function fmtMonth(d) { return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); }
+function fmtMonthShort(d) { return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }); }
+function fmtListDate(start, end) {
+  const s = new Date(start + 'T00:00:00');
+  const e = new Date(end + 'T00:00:00');
+  const opts = { month: 'short', day: 'numeric' };
+  if (start === end) return s.toLocaleDateString('en-US', opts);
+  if (s.getMonth() === e.getMonth()) return `${s.toLocaleDateString('en-US', opts)}–${e.getDate()}`;
+  return `${s.toLocaleDateString('en-US', opts)}–${e.toLocaleDateString('en-US', opts)}`;
+}
+function ymd(d) { return d.toISOString().slice(0,10); }
+function parseYmd(s) { return new Date(s + 'T00:00:00'); }
+function dayDiff(a, b) { return Math.round((b - a) / 86400000); }
+function startOfWeek(d) { const r = new Date(d); r.setDate(r.getDate() - r.getDay()); r.setHours(0,0,0,0); return r; }
+function startOfMonth(d) { return new Date(d.getFullYear(), d.getMonth(), 1); }
+function endOfMonth(d) { return new Date(d.getFullYear(), d.getMonth() + 1, 0); }
+function eventTouchesRange(evt, rangeStart, rangeEnd) {
+  const s = parseYmd(evt.start);
+  const e = parseYmd(evt.end);
+  return e >= rangeStart && s <= rangeEnd;
+}
+
+// View navigation
+function calNav(dir) {
+  const d = calState.date;
+  if (calState.view === 'month')   d.setMonth(d.getMonth() + dir);
+  if (calState.view === 'quarter') d.setMonth(d.getMonth() + dir * 3);
+  if (calState.view === 'week')    d.setDate(d.getDate() + dir * 7);
+  if (calState.view === 'list')    d.setMonth(d.getMonth() + dir * 3);
+  renderCalendar();
+}
+function calToday() {
+  calState.date = new Date();
+  renderCalendar();
+}
+
+// --- Monthly view ---
+function renderMonthView() {
+  const d = calState.date;
+  const monthStart = startOfMonth(d);
+  const monthEnd = endOfMonth(d);
+  const gridStart = startOfWeek(monthStart);
+  const gridEnd = new Date(monthEnd);
+  while (gridEnd.getDay() !== 6) gridEnd.setDate(gridEnd.getDate() + 1);
+
+  const today = new Date();
+
+  let html = '<div class="cal-month">';
+  html += '<div class="cal-dow"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>';
+  html += '<div class="cal-weeks">';
+
+  const weeks = [];
+  let cursor = new Date(gridStart);
+  while (cursor <= gridEnd) {
+    const week = [];
+    for (let i = 0; i < 7; i++) {
+      week.push(new Date(cursor));
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    weeks.push(week);
+  }
+
+  weeks.forEach(week => {
+    const weekStart = week[0];
+    const weekEnd = week[6];
+    const evts = CAL_EVENTS.filter(e => eventTouchesRange(e, weekStart, weekEnd))
+      .sort((a, b) => parseYmd(a.start) - parseYmd(b.start) || (parseYmd(b.end) - parseYmd(a.end)));
+
+    // Build per-day event chips: each event renders only on its first day in the week
+    html += '<div class="cal-week">';
+    week.forEach((day, idx) => {
+      const isOther = day.getMonth() !== d.getMonth();
+      const isToday = day.toDateString() === today.toDateString();
+      const dayClass = ['cal-day'];
+      if (isOther) dayClass.push('other-month');
+      if (isToday) dayClass.push('today');
+      const numHtml = isToday
+        ? `<span class="cal-day-num">${day.getDate()}</span>`
+        : `<span class="cal-day-num">${day.getDate()}</span>`;
+
+      // Find events starting (or first appearing in week) on this day
+      const dayEvts = evts.filter(e => {
+        const s = parseYmd(e.start);
+        const wkStart = new Date(weekStart);
+        const dayStartTouching = (s <= day && parseYmd(e.end) >= day);
+        // Render the chip on the first day in the week the event touches
+        const renderDay = s >= weekStart ? s : weekStart;
+        return renderDay.toDateString() === day.toDateString() && dayStartTouching;
+      });
+
+      const visibleEvts = dayEvts.slice(0, 3);
+      const moreCount = dayEvts.length - visibleEvts.length;
+
+      html += `<div class="${dayClass.join(' ')}">${numHtml}<div class="cal-day-stack">`;
+      visibleEvts.forEach(e => {
+        const cls = CAL_TYPES[e.type]?.cls || '';
+        const startD = parseYmd(e.start);
+        const endD = parseYmd(e.end);
+        const renderStart = startD < weekStart ? weekStart : startD;
+        const renderEnd = endD > weekEnd ? weekEnd : endD;
+        const span = dayDiff(renderStart, renderEnd) + 1;
+        const widthCalc = `calc(${span * 100}% + ${(span - 1) * 0.5}px)`;
+        html += `<div class="cal-evt ${cls}" title="${e.title}${e.location ? ' — ' + e.location : ''}" onclick="openEditEventModal(${e.id}); event.stopPropagation();" style="width:${widthCalc}; max-width: ${widthCalc};">${e.title}</div>`;
+      });
+      if (moreCount > 0) html += `<div class="cal-day-more">+${moreCount} more</div>`;
+      html += '</div></div>';
+    });
+    html += '</div>';
+  });
+
+  html += '</div></div>';
+  return html;
+}
+
+// --- Quarter view: 3 mini months ---
+function renderQuarterView() {
+  const d = calState.date;
+  const today = new Date();
+  let html = '<div class="cal-quarter">';
+
+  for (let m = 0; m < 3; m++) {
+    const monthDate = new Date(d.getFullYear(), d.getMonth() + m, 1);
+    const monthStart = startOfMonth(monthDate);
+    const monthEnd = endOfMonth(monthDate);
+    const gridStart = startOfWeek(monthStart);
+    const gridEnd = new Date(monthEnd);
+    while (gridEnd.getDay() !== 6) gridEnd.setDate(gridEnd.getDate() + 1);
+
+    html += `<div class="cal-q-month"><div class="cal-q-month-h">${fmtMonth(monthDate)}</div>`;
+    html += '<div class="cal-q-dow"><div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div></div>';
+    html += '<div class="cal-q-grid">';
+
+    let cursor = new Date(gridStart);
+    while (cursor <= gridEnd) {
+      const isOther = cursor.getMonth() !== monthDate.getMonth();
+      const isToday = cursor.toDateString() === today.toDateString();
+      const dayEvts = CAL_EVENTS.filter(e => {
+        const s = parseYmd(e.start);
+        const ed = parseYmd(e.end);
+        return cursor >= s && cursor <= ed;
+      });
+      const dotsHtml = dayEvts.slice(0, 3).map(e => {
+        const dot = CAL_TYPES[e.type]?.dot || '#9CA3AF';
+        return `<span class="cal-q-dot" style="background:${dot}"></span>`;
+      }).join('');
+      const cls = ['cal-q-day'];
+      if (isOther) cls.push('other-month');
+      if (isToday) cls.push('today');
+      if (dayEvts.length > 0) cls.push('has-evt');
+
+      html += `<div class="${cls.join(' ')}">${cursor.getDate()}${dotsHtml ? `<div class="cal-q-day-dots">${dotsHtml}</div>` : ''}</div>`;
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    html += '</div></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+// --- Week view ---
+function renderWeekView() {
+  const d = calState.date;
+  const weekStart = startOfWeek(d);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 6);
+  const today = new Date();
+
+  let html = '<div class="cal-week-view">';
+  html += '<div class="cal-week-head">';
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(weekStart);
+    day.setDate(day.getDate() + i);
+    const dow = day.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+    const isToday = day.toDateString() === today.toDateString();
+    html += `<div><div class="dow">${dow}</div><div class="dom${isToday ? ' today' : ''}">${day.getDate()}</div></div>`;
+  }
+  html += '</div>';
+  html += '<div class="cal-week-body">';
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(weekStart);
+    day.setDate(day.getDate() + i);
+    const dayEvts = CAL_EVENTS.filter(e => {
+      const s = parseYmd(e.start);
+      const ed = parseYmd(e.end);
+      return day >= s && day <= ed;
+    });
+    html += '<div>';
+    dayEvts.forEach(e => {
+      const cls = CAL_TYPES[e.type]?.cls || '';
+      html += `<div class="cal-evt ${cls}" onclick="openEditEventModal(${e.id})">${e.title}${e.location ? `<div class="cal-evt-loc">${e.location}</div>` : ''}</div>`;
+    });
+    html += '</div>';
+  }
+  html += '</div></div>';
+  return html;
+}
+
+// --- List view ---
+function renderListView() {
+  const d = calState.date;
+  const rangeStart = new Date(d.getFullYear(), d.getMonth(), 1);
+  const rangeEnd = new Date(d.getFullYear(), d.getMonth() + 3, 0); // 3-month window
+
+  const evts = CAL_EVENTS
+    .filter(e => eventTouchesRange(e, rangeStart, rangeEnd))
+    .sort((a, b) => parseYmd(a.start) - parseYmd(b.start));
+
+  if (evts.length === 0) {
+    return '<div class="cal-list" style="padding:32px; text-align:center; color:var(--color-text-tertiary); font-size:12px;">No events in this period.</div>';
+  }
+
+  let html = '<div class="cal-list">';
+  let currentMonthHeader = '';
+  evts.forEach(e => {
+    const sd = parseYmd(e.start);
+    const monthHeader = sd.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    if (monthHeader !== currentMonthHeader) {
+      html += `<div class="cal-list-month">${monthHeader}</div>`;
+      currentMonthHeader = monthHeader;
+    }
+    const t = CAL_TYPES[e.type] || { dot: '#9CA3AF', label: 'Event' };
+    html += `<div class="cal-list-row" onclick="openEditEventModal(${e.id})">
+      <div class="cal-list-date">${fmtListDate(e.start, e.end)}</div>
+      <div class="cal-list-type"><span class="cal-list-type-dot" style="background:${t.dot}"></span>${t.label}</div>
+      <div class="cal-list-title">${e.title}</div>
+      <div class="cal-list-loc">${e.location || ''}</div>
+    </div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderCalendar() {
+  const content = document.getElementById('cal-content');
+  if (!content) return;
+  const periodEl = document.getElementById('cal-period');
+  const d = calState.date;
+
+  if (calState.view === 'month') {
+    periodEl.textContent = fmtMonth(d);
+    content.innerHTML = renderMonthView();
+  } else if (calState.view === 'quarter') {
+    const last = new Date(d.getFullYear(), d.getMonth() + 2, 1);
+    periodEl.textContent = `${fmtMonthShort(d)} – ${fmtMonthShort(last)}`;
+    content.innerHTML = renderQuarterView();
+  } else if (calState.view === 'week') {
+    const ws = startOfWeek(d);
+    const we = new Date(ws); we.setDate(we.getDate() + 6);
+    const sameMonth = ws.getMonth() === we.getMonth();
+    periodEl.textContent = sameMonth
+      ? `${ws.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${we.getDate()}, ${we.getFullYear()}`
+      : `${ws.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${we.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+    content.innerHTML = renderWeekView();
+  } else if (calState.view === 'list') {
+    const last = new Date(d.getFullYear(), d.getMonth() + 2, 1);
+    periodEl.textContent = `${fmtMonthShort(d)} – ${fmtMonthShort(last)}`;
+    content.innerHTML = renderListView();
+  }
+
+  document.querySelectorAll('.cal-vw').forEach(v => v.classList.toggle('on', v.dataset.view === calState.view));
+}
+
+// View switcher
+document.addEventListener('click', (e) => {
+  const vw = e.target.closest('.cal-vw');
+  if (!vw) return;
+  calState.view = vw.dataset.view;
+  renderCalendar();
+});
+
+// Add / Edit event modal (shared)
+let editingEventId = null;
+
+function clearEventForm() {
+  document.getElementById('ae-title').value = '';
+  document.getElementById('ae-start').value = '';
+  document.getElementById('ae-end').value = '';
+  document.getElementById('ae-location').value = '';
+  document.getElementById('ae-type').value = 'conference';
+}
+function openAddEventModal() {
+  editingEventId = null;
+  clearEventForm();
+  document.getElementById('ae-modal-title').textContent = 'Add event';
+  document.getElementById('ae-submit').textContent = 'Add event';
+  document.getElementById('ae-delete').style.display = 'none';
+  document.getElementById('modal-add-event').hidden = false;
+}
+function openEditEventModal(id) {
+  const e = CAL_EVENTS.find(x => x.id === id);
+  if (!e) return;
+  editingEventId = id;
+  document.getElementById('ae-type').value = e.type;
+  document.getElementById('ae-title').value = e.title;
+  document.getElementById('ae-start').value = e.start;
+  document.getElementById('ae-end').value = e.end;
+  document.getElementById('ae-location').value = e.location || '';
+  document.getElementById('ae-modal-title').textContent = 'Edit event';
+  document.getElementById('ae-submit').textContent = 'Save changes';
+  document.getElementById('ae-delete').style.display = '';
+  document.getElementById('modal-add-event').hidden = false;
+}
+function closeAddEventModal() {
+  document.getElementById('modal-add-event').hidden = true;
+  editingEventId = null;
+}
+function submitAddEvent() {
+  const title = document.getElementById('ae-title').value.trim();
+  const type = document.getElementById('ae-type').value;
+  const start = document.getElementById('ae-start').value;
+  const end = document.getElementById('ae-end').value || start;
+  const location = document.getElementById('ae-location').value.trim();
+  if (!title || !start) {
+    alert('Title and start date are required.');
+    return;
+  }
+  if (editingEventId !== null) {
+    const idx = CAL_EVENTS.findIndex(x => x.id === editingEventId);
+    if (idx >= 0) CAL_EVENTS[idx] = { id: editingEventId, type, title, start, end, location };
+  } else {
+    const newId = (CAL_EVENTS.reduce((m, e) => Math.max(m, e.id), 0) || 0) + 1;
+    CAL_EVENTS.push({ id: newId, type, title, start, end, location });
+  }
+  closeAddEventModal();
+  clearEventForm();
+  renderCalendar();
+}
+function deleteEvent() {
+  if (editingEventId === null) return;
+  if (!confirm('Delete this event?')) return;
+  CAL_EVENTS = CAL_EVENTS.filter(x => x.id !== editingEventId);
+  closeAddEventModal();
+  clearEventForm();
+  renderCalendar();
+}
+
+
+
+// ----- Shared sector taxonomy (used by companies + conferences) -----
+const SECTORS = [
+  "Energy minerals", "Mining", "Materials", "Industrials",
+  "Technology", "Biotech", "Pharma", "Health services",
+  "Financial", "Consumer staples"
+];
+
+
+// ========== ACTIVITIES ==========
+const ACTIVITY_TYPES = [
+  { id: 'in_person',  label: 'In-person meeting' },
+  { id: 'virtual',    label: 'Virtual meeting' },
+  { id: 'call',       label: 'Call' },
+  { id: 'email_out',  label: 'Email out' },
+  { id: 'meal',       label: 'Meal / Drinks' },
+  { id: 'other',      label: 'Other' }
+];
+
+const ACTIVITY_OUTCOMES = [
+  { id: 'positive',    label: 'Positive',    color: '#137A4A' },
+  { id: 'neutral',     label: 'Neutral',     color: '#6B7280' },
+  { id: 'negative',    label: 'Negative',    color: '#B53832' },
+  { id: 'no_response', label: 'No response', color: '#9CA3AF' }
+];
+
+let ACTIVITIES = [
+  // Pre-seeded so the timeline isn't empty
+  { id: 1, type: 'email_out', subject: 'Following up — meeting Tuesday?', notes: 'Confirming our 2pm Tuesday call. Shared the materials David asked for ahead of time.', personIds: [1], company: 'Ridgeline Energy', date: '2026-05-01', outcome: 'positive', ownerInitials: 'SR' },
+  { id: 2, type: 'meal',      subject: 'NIRI New York IRO Dinner — Centurion', notes: 'Caught up with David and a few RDGE board members at Centurion. Discussed Q3 earnings cadence and outreach.', personIds: [1, 2], company: 'Ridgeline Energy', date: '2026-03-19', outcome: 'positive', ownerInitials: 'SR' },
+  { id: 3, type: 'call',      subject: 'Quarterly check-in', notes: '30-min call with David on IR plans for the year. He mentioned wanting to formalize a perception study around mid-year.', personIds: [1], company: 'Ridgeline Energy', date: '2026-02-12', outcome: 'positive', ownerInitials: 'SR' }
+];
+
+// ========== CONFERENCES ==========
+const CONFERENCES = [
+  // 2026 — past/near-term mostly confirmed; far-future estimated
+  { id: 1,  name: "PDAC Convention", organizer: "PDAC", sectors: ["Mining", "Energy minerals", "Materials"], dateStart: "2026-03-01", dateEnd: "2026-03-04", location: "Toronto, Canada", status: "confirmed", confirmedAttendees: ["BORM", "NWND", "RDGE"] },
+  { id: 2,  name: "Cantor Global Technology & Industrial Growth Conference", organizer: "Cantor Fitzgerald", sectors: ["Technology", "Industrials"], dateStart: "2026-03-12", dateEnd: "2026-03-12", location: "New York, NY", status: "confirmed", confirmedAttendees: ["BCNT"] },
+  { id: 3,  name: "Loop Capital Investment Conference", organizer: "Loop Capital", sectors: ["Industrials", "Materials", "Mining"], dateStart: "2026-03-18", dateEnd: "2026-03-19", location: "New York, NY", status: "confirmed", confirmedAttendees: [] },
+  { id: 4,  name: "Mining Forum Europe", organizer: "Precious Metals Summit", sectors: ["Mining"], dateStart: "2026-04-13", dateEnd: "2026-04-15", location: "Zurich, Switzerland", status: "confirmed", confirmedAttendees: ["BORM", "RDGE"] },
+  { id: 5,  name: "BofA Metals, Mining & Steel Conference", organizer: "Bank of America", sectors: ["Mining", "Materials", "Energy minerals"], dateStart: "2026-05-13", dateEnd: "2026-05-15", location: "New York, NY", status: "confirmed", confirmedAttendees: ["BORM", "RDGE", "ATLM"] },
+  { id: 6,  name: "KeyBanc Industrials & Basic Materials Conference", organizer: "KeyBanc Capital Markets", sectors: ["Industrials", "Materials"], dateStart: "2026-05-15", dateEnd: "2026-05-16", location: "Boston, MA", status: "confirmed", confirmedAttendees: ["MRDL"] },
+  { id: 7,  name: "JPM Technology, Media & Communications Conference", organizer: "JPMorgan", sectors: ["Technology"], dateStart: "2026-05-20", dateEnd: "2026-05-22", location: "Boston, MA", status: "confirmed", confirmedAttendees: ["BCNT"] },
+  { id: 8,  name: "Bernstein Strategic Decisions Conference", organizer: "Bernstein", sectors: ["Industrials", "Consumer staples", "Financial", "Health services"], dateStart: "2026-05-28", dateEnd: "2026-06-02", location: "New York, NY", status: "confirmed", confirmedAttendees: ["CRWV"] },
+  { id: 9,  name: "NIRI Annual Conference", organizer: "NIRI", sectors: ["Industrials", "Mining", "Energy minerals", "Biotech", "Pharma", "Financial", "Technology", "Materials", "Health services", "Consumer staples"], dateStart: "2026-06-07", dateEnd: "2026-06-10", location: "San Francisco, CA", status: "confirmed", confirmedAttendees: ["LUMN", "BCNT", "CRWV"] },
+  { id: 10, name: "JPM Energy, Power, Renewables & Mining Conference", organizer: "JPMorgan", sectors: ["Energy minerals", "Mining"], dateStart: "2026-06-10", dateEnd: "2026-06-12", location: "New York, NY", status: "confirmed", confirmedAttendees: ["RDGE", "BORM", "NWND"] },
+  { id: 11, name: "RBC Global Mining & Materials Conference", organizer: "RBC Capital Markets", sectors: ["Mining", "Materials"], dateStart: "2026-06-11", dateEnd: "2026-06-13", location: "New York, NY", status: "confirmed", confirmedAttendees: ["BORM"] },
+  { id: 12, name: "Diggers & Dealers Mining Forum", organizer: "Diggers & Dealers", sectors: ["Mining"], dateStart: "2026-08-03", dateEnd: "2026-08-05", location: "Kalgoorlie, Australia", status: "confirmed", confirmedAttendees: ["NWND"] },
+  { id: 13, name: "BofA Global Healthcare Conference", organizer: "Bank of America", sectors: ["Pharma", "Biotech", "Health services"], dateStart: "2026-09-03", dateEnd: "2026-09-05", location: "London, UK", status: "confirmed", confirmedAttendees: ["AURA", "LUMN", "SPHR"] },
+  { id: 14, name: "Barclays CEO Energy-Power Conference", organizer: "Barclays", sectors: ["Energy minerals"], dateStart: "2026-09-09", dateEnd: "2026-09-11", location: "New York, NY", status: "confirmed", confirmedAttendees: ["RDGE"] },
+  { id: 15, name: "Citi Global TMT Conference", organizer: "Citi", sectors: ["Technology"], dateStart: "2026-09-15", dateEnd: "2026-09-17", location: "New York, NY", status: "confirmed", confirmedAttendees: [] },
+  { id: 16, name: "Precious Metals Summit Beaver Creek", organizer: "Precious Metals Summit", sectors: ["Mining"], dateStart: "2026-09-22", dateEnd: "2026-09-25", location: "Beaver Creek, CO", status: "confirmed", confirmedAttendees: ["BORM"] },
+  { id: 17, name: "Mining Forum Americas", organizer: "Precious Metals Summit", sectors: ["Mining"], dateStart: "2026-09-27", dateEnd: "2026-09-30", location: "Colorado Springs, CO", status: "confirmed", confirmedAttendees: [] },
+  { id: 18, name: "Goldman Sachs Industrials & Materials Conference", organizer: "Goldman Sachs", sectors: ["Industrials", "Materials"], dateStart: "2026-12-03", dateEnd: "2026-12-05", location: "New York, NY", status: "estimated", confirmedAttendees: [] },
+  { id: 19, name: "Future Minerals Forum", organizer: "Saudi Ministry of Industry", sectors: ["Mining", "Energy minerals"], dateStart: "2027-01-12", dateEnd: "2027-01-14", location: "Riyadh, Saudi Arabia", status: "confirmed", confirmedAttendees: [] },
+  // 2027 estimated entries — recurring conferences without firm dates yet
+  { id: 20, name: "PDAC Convention", organizer: "PDAC", sectors: ["Mining", "Energy minerals", "Materials"], dateStart: "2027-03-01", dateEnd: "2027-03-04", location: "Toronto, Canada", status: "estimated", confirmedAttendees: [] },
+  { id: 21, name: "BofA Metals, Mining & Steel Conference", organizer: "Bank of America", sectors: ["Mining", "Materials", "Energy minerals"], dateStart: "2027-05-12", dateEnd: "2027-05-14", location: "New York, NY", status: "estimated", confirmedAttendees: [] },
+  { id: 22, name: "JPM Energy, Power, Renewables & Mining Conference", organizer: "JPMorgan", sectors: ["Energy minerals", "Mining"], dateStart: "2027-06-09", dateEnd: "2027-06-11", location: "New York, NY", status: "estimated", confirmedAttendees: [] }
+];
+
+let confState = { savedView: 'all', search: '', currentId: null };
+
+function getConferenceAttendees(conf) {
+  // Match Rose & Co universe companies whose sector overlaps with conference sectors
+  // Returns each attendee with attendanceStatus: "confirmed" | "likely"
+  const sectorMatched = COMPANY_DATA.filter(c => conf.sectors.some(s => c.sector === s));
+  return sectorMatched.map(c => ({
+    ...c,
+    attendanceStatus: (conf.confirmedAttendees || []).includes(c.ticker) ? 'confirmed' : 'likely'
+  }));
+}
+
+function toggleAttendeeStatus(confId, ticker) {
+  const conf = CONFERENCES.find(c => c.id === confId);
+  if (!conf) return;
+  if (!conf.confirmedAttendees) conf.confirmedAttendees = [];
+  const idx = conf.confirmedAttendees.indexOf(ticker);
+  if (idx >= 0) {
+    conf.confirmedAttendees.splice(idx, 1);
+  } else {
+    conf.confirmedAttendees.push(ticker);
+  }
+  openConference(confId); // rerender
+}
+
+function fmtConfDate(start, end) {
+  const s = new Date(start + 'T00:00:00');
+  const e = new Date(end + 'T00:00:00');
+  const opts = { month: 'short', day: 'numeric' };
+  if (start === end) return s.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  if (s.getMonth() === e.getMonth()) return `${s.toLocaleDateString('en-US', opts)}–${e.getDate()}, ${e.getFullYear()}`;
+  return `${s.toLocaleDateString('en-US', opts)} – ${e.toLocaleDateString('en-US', { ...opts, year: 'numeric' })}`;
+}
+
+function getFilteredConferences() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const q = (confState.search || '').toLowerCase();
+  const filtered = CONFERENCES.filter(c => {
+    const start = new Date(c.dateStart + 'T00:00:00');
+    if (confState.savedView === 'upcoming' && start < today) return false;
+    if (confState.savedView === 'past' && start >= today) return false;
+    if (confState.savedView === 'estimated' && c.status !== 'estimated') return false;
+    if (q) {
+      const hay = [c.name, c.organizer, c.location, ...c.sectors].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    if (!passesColumnFilters('conferences', c)) return false;
+    return true;
+  });
+  return applySort('conferences', filtered);
+}
+
+function renderConferences() {
+  const tbody = document.getElementById('conf-tbody');
+  if (!tbody) return;
+  const list = getFilteredConferences();
+  const today = new Date(); today.setHours(0,0,0,0);
+  tbody.innerHTML = list.map(c => {
+    const att = getConferenceAttendees(c);
+    const confirmed = att.filter(a => a.attendanceStatus === 'confirmed').length;
+    const likely = att.length - confirmed;
+    const isPast = new Date(c.dateEnd + 'T00:00:00') < today;
+
+    let statusHint = '';
+    if (isPast) statusHint = '<span class="cf-date-stat past">past</span>';
+    else if (c.status === 'estimated') statusHint = '<span class="cf-date-stat estimated">est.</span>';
+
+    const attHtml = att.length === 0
+      ? `<span class="cf-att-split zero">0</span>`
+      : `<span class="cf-att-split">${confirmed > 0 ? `<span class="conf-num">${confirmed}</span> · ` : ''}<span class="like-num">${likely} likely</span></span>`;
+
+    const trClass = `dv-tr conf-grid${isPast ? ' is-past' : ''}`;
+
+    return `<div class="${trClass}" onclick="openConference(${c.id})" style="cursor:pointer">
+      <div class="dv-td"><span class="cf-name-cell" title="${c.name}">${c.name}</span></div>
+      <div class="dv-td"><span class="cf-org" title="${c.organizer}">${c.organizer}</span></div>
+      <div class="dv-td"><span class="cf-sectors" title="${c.sectors.join(', ')}">${c.sectors.slice(0, 2).join(', ')}${c.sectors.length > 2 ? ` +${c.sectors.length - 2}` : ''}</span></div>
+      <div class="dv-td"><span class="cf-date-hint"><span class="cf-date">${fmtConfDate(c.dateStart, c.dateEnd)}</span>${statusHint}</span></div>
+      <div class="dv-td"><span class="cf-loc" title="${c.location}">${c.location}</span></div>
+      <div class="dv-td" style="text-align:right; justify-content:flex-end">${attHtml}</div>
+    </div>`;
+  }).join('');
+  updateConferenceCounts();
+}
+
+function updateConferenceCounts() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById('conf-c-all').textContent = CONFERENCES.length;
+  document.getElementById('conf-c-up').textContent = CONFERENCES.filter(c => new Date(c.dateStart + 'T00:00:00') >= today).length;
+  document.getElementById('conf-c-past').textContent = CONFERENCES.filter(c => new Date(c.dateStart + 'T00:00:00') < today).length;
+  document.getElementById('conf-c-est').textContent = CONFERENCES.filter(c => c.status === 'estimated').length;
+}
+
+function onConfSearch(v) { confState.search = (v || '').toLowerCase().trim(); renderConferences(); }
+
+document.querySelectorAll('[data-conf-tab]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('[data-conf-tab]').forEach(t => t.classList.remove('on'));
+    tab.classList.add('on');
+    confState.savedView = tab.dataset.confTab;
+    renderConferences();
+  });
+});
+
+function openConference(id) {
+  const c = CONFERENCES.find(x => x.id === id);
+  if (!c) return;
+  confState.currentId = id;
+
+  document.getElementById('cf-bc-name').textContent = c.name;
+  document.getElementById('cf-name').textContent = c.name;
+
+  const dateStr = fmtConfDate(c.dateStart, c.dateEnd);
+  const todayD = new Date(); todayD.setHours(0,0,0,0);
+  const isPast = new Date(c.dateEnd + 'T00:00:00') < todayD;
+  let dateHint = '';
+  if (isPast) dateHint = ' <span style="font-size:11px; font-style:italic; color:var(--color-text-tertiary);">past</span>';
+  else if (c.status === 'estimated') dateHint = ' <span style="font-size:11px; font-style:italic; color:#92400E;">est.</span>';
+  const meta = `<span>${c.organizer}</span><span class="sep">·</span><span>${dateStr}${dateHint}</span><span class="sep">·</span><span>${c.location}</span>`;
+  document.getElementById('cf-meta').innerHTML = meta;
+  // Hero pills now show only sectors (status moved inline next to date)
+  document.getElementById('cf-pills').innerHTML = c.sectors.map(s => `<span class="cf-pill">${s}</span>`).join('');
+
+  // Attendees
+  const attendees = getConferenceAttendees(c);
+  const confirmedCount = attendees.filter(a => a.attendanceStatus === 'confirmed').length;
+  const likelyCount = attendees.length - confirmedCount;
+
+  const calloutEl = document.getElementById('cf-callout');
+  if (attendees.length > 0) {
+    const parts = [];
+    if (confirmedCount) parts.push(`<span class="conf-num" style="color:#137A4A; font-weight:600;">${confirmedCount} confirmed</span>`);
+    if (likelyCount) parts.push(`<span style="color:var(--color-text-secondary);">${likelyCount} likely</span>`);
+    calloutEl.innerHTML = `
+      <span class="cf-callout-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg></span>
+      <span><span class="cf-callout-num">${attendees.length} of your tracked companies</span> ${confirmedCount > 0 ? 'attending' : 'likely attending'}</span>
+      <span class="cf-callout-breakdown">${parts.join(' · ')}</span>
+    `;
+  } else {
+    calloutEl.innerHTML = '<span style="color:var(--color-text-tertiary); font-size:12px;">No tracked companies match this conference\'s sectors.</span>';
+  }
+
+  // Two-tier sort: confirmed attendance first, then by relationship warmth
+  const stagePriority = { 'Current client': 0, 'Engaged': 1, 'Aware': 2, 'Past client': 3, 'Cold': 4, 'Declined': 5, 'Dormant': 6, 'Lost': 7 };
+  attendees.sort((a, b) => {
+    const aConf = a.attendanceStatus === 'confirmed' ? 0 : 1;
+    const bConf = b.attendanceStatus === 'confirmed' ? 0 : 1;
+    if (aConf !== bConf) return aConf - bConf;
+    return (stagePriority[a.stage] ?? 99) - (stagePriority[b.stage] ?? 99);
+  });
+
+  const tbody = document.getElementById('cfa-tbody');
+  tbody.innerHTML = attendees.map(a => {
+    const sc = COMPANY_STAGE_COLORS[a.stage] || { dot: '#9CA3AF', text: '#6B7280' };
+    const attPill = a.attendanceStatus === 'confirmed'
+      ? `<span class="cfa-att confirmed" onclick="event.stopPropagation(); toggleAttendeeStatus(${c.id}, '${a.ticker}')" title="Click to mark as Likely"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Confirmed</span>`
+      : `<span class="cfa-att likely" onclick="event.stopPropagation(); toggleAttendeeStatus(${c.id}, '${a.ticker}')" title="Click to mark as Confirmed">Likely</span>`;
+    return `<div class="dv-tr cfa-grid">
+      <div class="dv-td"><span class="cfa-tk">${a.ticker}</span></div>
+      <div class="dv-td"><span class="cv-co" title="${a.company}">${a.company}</span></div>
+      <div class="dv-td"><span class="cf-sectors">${a.sector}</span></div>
+      <div class="dv-td"><span class="pv-mc">${a.mktCap}</span></div>
+      <div class="dv-td"><span class="pv-rel-pill" style="color:${sc.text}"><span class="pv-rel-dot" style="background:${sc.dot}"></span>${a.stage}</span></div>
+      <div class="dv-td"><span class="dv-av" title="${a.ownerName}">${a.owner}</span></div>
+      <div class="dv-td"><span class="dv-days ${daysClass(a.days)}">${a.days === 0 ? '—' : a.days + 'd'}</span></div>
+      <div class="dv-td">${attPill}</div>
+      <div class="dv-td"><span class="cfa-open" onclick="event.stopPropagation(); openCompanyByName('${a.company.replace(/'/g, "\\'")}')">Open<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></div>
+    </div>`;
+  }).join('');
+
+  showPage('page-conference');
+}
+
+function openCompanyByName(name) {
+  // Only Ridgeline has a full detail page in this mockup
+  if (name === 'Ridgeline Energy') {
+    showPage('page-company');
+  } else {
+    showPage('page-company');
+  }
+}
+
+function goToConferenceInCalendar() {
+  const c = CONFERENCES.find(x => x.id === confState.currentId);
+  if (!c) return;
+  calState.date = new Date(c.dateStart + 'T00:00:00');
+  calState.view = 'month';
+  showPage('page-calendar');
+}
+
+
+
+
+// Render the "Conference attendance" card on the company detail page
+let _ccExpanded = { upcoming: false, past: false };
+
+function renderCompanyConferenceCard(companyName) {
+  const el = document.getElementById('company-conf-list');
+  if (!el) return;
+  const companyRecord = COMPANY_DATA.find(c => c.company === companyName);
+  if (!companyRecord) { el.innerHTML = '<div style="font-size:12px; color:var(--color-text-tertiary)">No data.</div>'; return; }
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const past = CONFERENCES.filter(c =>
+    (c.confirmedAttendees || []).includes(companyRecord.ticker)
+    && new Date(c.dateEnd + 'T00:00:00') < today
+  ).sort((a, b) => new Date(b.dateStart) - new Date(a.dateStart));
+
+  const upcoming = CONFERENCES.filter(c =>
+    (c.confirmedAttendees || []).includes(companyRecord.ticker)
+    && new Date(c.dateEnd + 'T00:00:00') >= today
+  ).sort((a, b) => new Date(a.dateStart) - new Date(b.dateStart));
+
+  // Update header counts
+  const upCountEl = document.getElementById('cc-up-count');
+  const pastCountEl = document.getElementById('cc-past-count');
+  if (upCountEl) upCountEl.textContent = upcoming.length;
+  if (pastCountEl) pastCountEl.textContent = past.length;
+
+  if (past.length === 0 && upcoming.length === 0) {
+    el.innerHTML = '<div style="font-size:12px; color:var(--color-text-tertiary); padding:6px 0;">No confirmed conference attendances yet. Upload a conference attendee list to start tracking.</div>';
+    return;
+  }
+
+  const LIMIT = 3;
+  let html = '';
+
+  if (upcoming.length > 0) {
+    const showUp = _ccExpanded.upcoming ? upcoming : upcoming.slice(0, LIMIT);
+    html += '<div style="font-size:10px; font-weight:500; color:var(--color-text-tertiary); letter-spacing:0.04em; text-transform:uppercase; margin: 4px 0 6px;">Upcoming</div>';
+    html += showUp.map(c => renderCompanyConfRow(c)).join('');
+    if (upcoming.length > LIMIT) {
+      html += `<div class="cc-expand" onclick="_ccExpanded.upcoming = !_ccExpanded.upcoming; renderCompanyConferenceCard('${companyName.replace(/'/g, "\\'")}')">${_ccExpanded.upcoming ? 'Show less' : `Show all ${upcoming.length}`}</div>`;
+    }
+  }
+
+  if (past.length > 0) {
+    const showPast = _ccExpanded.past ? past : past.slice(0, LIMIT);
+    html += '<div style="font-size:10px; font-weight:500; color:var(--color-text-tertiary); letter-spacing:0.04em; text-transform:uppercase; margin: ' + (upcoming.length ? '14px' : '4px') + ' 0 6px;">Past</div>';
+    html += showPast.map(c => renderCompanyConfRow(c, true)).join('');
+    if (past.length > LIMIT) {
+      html += `<div class="cc-expand" onclick="_ccExpanded.past = !_ccExpanded.past; renderCompanyConferenceCard('${companyName.replace(/'/g, "\\'")}')">${_ccExpanded.past ? 'Show less' : `Show all ${past.length}`}</div>`;
+    }
+  }
+
+  el.innerHTML = html;
+}
+
+function renderCompanyConfRow(c, isPast) {
+  return `<div class="cc-row" onclick="openConference(${c.id})" style="cursor:pointer;">
+    <div class="cc-row-main">
+      <div class="cc-row-name">${c.name}</div>
+      <div class="cc-row-meta">${fmtConfDate(c.dateStart, c.dateEnd)} · ${c.location}</div>
+    </div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px; height:12px; color:var(--color-text-tertiary); flex-shrink:0;"><path d="M9 18l6-6-6-6"/></svg>
+  </div>`;
+}
+
+
+function toggleHqPop(ev) {
+  ev.stopPropagation();
+  const pop = document.getElementById('hq-pop');
+  if (!pop) return;
+  pop.hidden = !pop.hidden;
+  if (!pop.hidden) {
+    setTimeout(() => {
+      document.addEventListener('click', _closeHqPopOnce, { once: true });
+    }, 0);
+  }
+}
+function _closeHqPopOnce(ev) {
+  const pop = document.getElementById('hq-pop');
+  if (!pop) return;
+  if (!pop.contains(ev.target)) pop.hidden = true;
+}
+
+
+// ========== LOG ACTIVITY MODAL ==========
+let laState = {
+  type: 'email_out',
+  contacts: [],   // { id, name, company }
+  date: null,
+  outcome: '',
+  dealId: null,
+  eventId: null
+};
+
+function openLogActivityModal(prefill) {
+  prefill = prefill || {};
+  laState = { type: 'email_out', contacts: [], date: null, outcome: '', dealId: null, eventId: null };
+
+  // Populate type grid
+  const grid = document.getElementById('la-type-grid');
+  grid.innerHTML = ACTIVITY_TYPES.map(t =>
+    `<div class="la-type-opt ${t.id === laState.type ? 'on' : ''}" data-type="${t.id}" onclick="laSetType('${t.id}')">${t.label}</div>`
+  ).join('');
+
+  // Populate outcome dropdown
+  const outcomeSel = document.getElementById('la-outcome');
+  outcomeSel.innerHTML = '<option value="">—</option>' +
+    ACTIVITY_OUTCOMES.map(o => `<option value="${o.id}">${o.label}</option>`).join('');
+
+  // Today's date as default
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('la-date').value = today;
+
+  // Clear other fields
+  const otherEl = document.getElementById('la-other');
+  if (otherEl) otherEl.value = '';
+  const otherFieldEl = document.getElementById('la-other-field');
+  if (otherFieldEl) otherFieldEl.hidden = true;
+  document.getElementById('la-subject').value = '';
+  document.getElementById('la-notes').value = '';
+  document.getElementById('la-contact-search').value = '';
+  document.getElementById('la-contact-typeahead').hidden = true;
+  document.getElementById('la-company').value = '';
+
+  // Pre-fill from caller
+  if (prefill.personId) {
+    const p = PEOPLE_DATA.find(x => x.id === prefill.personId);
+    if (p) laAddContact(p);
+  }
+  if (prefill.company && laState.contacts.length === 0) {
+    document.getElementById('la-company').value = prefill.company;
+  }
+
+  // Refresh contact chips
+  laRenderChips();
+
+  document.getElementById('modal-log-activity').hidden = false;
+}
+
+function closeLogActivityModal() {
+  document.getElementById('modal-log-activity').hidden = true;
+}
+
+function laSetType(typeId) {
+  laState.type = typeId;
+  document.querySelectorAll('.la-type-opt').forEach(el => {
+    el.classList.toggle('on', el.dataset.type === typeId);
+  });
+  // Show the "Specify type" field when Other is selected
+  const otherField = document.getElementById('la-other-field');
+  if (otherField) otherField.hidden = (typeId !== 'other');
+}
+
+function laOnContactSearch(q) {
+  q = (q || '').toLowerCase().trim();
+  const ta = document.getElementById('la-contact-typeahead');
+  if (!q) { ta.hidden = true; ta.innerHTML = ''; return; }
+  const selectedIds = laState.contacts.map(c => c.id);
+  const matches = PEOPLE_DATA
+    .filter(p => !selectedIds.includes(p.id))
+    .filter(p => (p.name + ' ' + p.title + ' ' + p.company).toLowerCase().includes(q))
+    .slice(0, 8);
+  if (matches.length === 0) {
+    ta.innerHTML = '<div style="font-size:11px; color:var(--color-text-tertiary); padding:8px 10px;">No matches</div>';
+    ta.hidden = false;
+    return;
+  }
+  ta.innerHTML = matches.map(p =>
+    `<div class="la-typeahead-row" onclick="laAddContactById(${p.id})">
+      <span class="la-ta-name">${p.name}</span>
+      <span class="la-ta-meta">${p.title} · ${p.company}</span>
+    </div>`
+  ).join('');
+  ta.hidden = false;
+}
+
+function laAddContactById(id) {
+  const p = PEOPLE_DATA.find(x => x.id === id);
+  if (p) laAddContact(p);
+}
+
+function laAddContact(person) {
+  if (laState.contacts.find(c => c.id === person.id)) return;
+  laState.contacts.push({ id: person.id, name: person.name, company: person.company });
+  laRenderChips();
+  document.getElementById('la-contact-search').value = '';
+  document.getElementById('la-contact-typeahead').hidden = true;
+  // Auto-set company from first contact
+  if (laState.contacts.length === 1) {
+    document.getElementById('la-company').value = person.company;
+  }
+}
+
+function laRemoveContact(id) {
+  laState.contacts = laState.contacts.filter(c => c.id !== id);
+  laRenderChips();
+  if (laState.contacts.length === 0) {
+    document.getElementById('la-company').value = '';
+  } else {
+    document.getElementById('la-company').value = laState.contacts[0].company;
+  }
+}
+
+function laRenderChips() {
+  const wrap = document.getElementById('la-contacts');
+  const input = document.getElementById('la-contact-search');
+  // Remove all existing chips, keep input
+  wrap.querySelectorAll('.la-chip').forEach(el => el.remove());
+  // Insert chips before the input
+  laState.contacts.forEach(c => {
+    const chip = document.createElement('span');
+    chip.className = 'la-chip';
+    chip.innerHTML = `${c.name}<button class="la-chip-x" onclick="laRemoveContact(${c.id})" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+    wrap.insertBefore(chip, input);
+  });
+}
+
+
+function submitLogActivity() {
+  const subject = document.getElementById('la-subject').value.trim();
+  const notes = document.getElementById('la-notes').value.trim();
+  const date = document.getElementById('la-date').value;
+  const outcome = document.getElementById('la-outcome').value;
+  const company = document.getElementById('la-company').value.trim();
+  const otherTypeText = (document.getElementById('la-other')?.value || '').trim();
+
+  if (laState.contacts.length === 0) {
+    alert('Please add at least one contact.');
+    return;
+  }
+  if (!subject) {
+    alert('Please add a subject.');
+    return;
+  }
+  if (!date) {
+    alert('Please pick a date.');
+    return;
+  }
+  if (laState.type === 'other' && !otherTypeText) {
+    alert('Please specify the type for "Other".');
+    return;
+  }
+
+  const newId = (ACTIVITIES.reduce((m, a) => Math.max(m, a.id), 0) || 0) + 1;
+  ACTIVITIES.push({
+    id: newId,
+    type: laState.type,
+    typeOther: laState.type === 'other' ? otherTypeText : null,
+    subject,
+    notes,
+    personIds: laState.contacts.map(c => c.id),
+    company,
+    date,
+    outcome,
+    ownerInitials: 'SR' // hardcoded for mockup; in production this is the current user
+  });
+
+  closeLogActivityModal();
+  alert('Activity logged.');
+}
+
+// ----- Attendee list CSV upload + fuzzy match -----
+function normalizeCompanyName(s) {
+  return s.toLowerCase()
+    .replace(/[.,]/g, '')
+    .replace(/\b(inc|incorporated|corp|corporation|company|co|ltd|limited|llc|plc|sa|nv|ag|holdings|group|industries)\b/gi, '')
+    .replace(/&/g, 'and')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function fuzzyMatchCompany(input) {
+  const norm = normalizeCompanyName(input);
+  if (!norm) return null;
+  // Exact normalized match
+  for (const c of COMPANY_DATA) {
+    if (normalizeCompanyName(c.company) === norm) return c;
+    if (c.ticker.toLowerCase() === input.toLowerCase().trim()) return c;
+  }
+  // Substring match either direction
+  for (const c of COMPANY_DATA) {
+    const cn = normalizeCompanyName(c.company);
+    if (cn.includes(norm) || norm.includes(cn)) return c;
+  }
+  return null;
+}
+
+function parseCsvLine(line) {
+  // Simple CSV parser handling quoted fields
+  const out = [];
+  let buf = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"' && line[i+1] === '"') { buf += '"'; i++; continue; }
+    if (ch === '"') { inQ = !inQ; continue; }
+    if (ch === ',' && !inQ) { out.push(buf.trim()); buf = ''; continue; }
+    buf += ch;
+  }
+  out.push(buf.trim());
+  return out;
+}
+
+function parseAttendeesCsv(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (lines.length === 0) return { rows: [], headers: [] };
+  const headers = parseCsvLine(lines[0]).map(h => h.toLowerCase());
+  // Find a column likely to contain company name or ticker
+  const companyCol = headers.findIndex(h => /(company|issuer|name|attendee)/i.test(h));
+  const tickerCol = headers.findIndex(h => /ticker|symbol/i.test(h));
+  const rows = lines.slice(1).map(l => {
+    const cells = parseCsvLine(l);
+    return {
+      company: companyCol >= 0 ? cells[companyCol] : cells[0],
+      ticker: tickerCol >= 0 ? cells[tickerCol] : ''
+    };
+  }).filter(r => r.company || r.ticker);
+  return { rows, headers };
+}
+
+function handleAttendeeUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const text = e.target.result;
+    const { rows } = parseAttendeesCsv(text);
+    if (rows.length === 0) {
+      alert('Could not parse the file. Expecting a CSV with a Company or Ticker column.');
+      return;
+    }
+    // Match each row
+    const matched = [];
+    const unmatched = [];
+    rows.forEach(r => {
+      const m = fuzzyMatchCompany(r.ticker || r.company);
+      if (m) matched.push({ row: r, hit: m });
+      else unmatched.push(r);
+    });
+    showAttendeeMatchPreview(matched, unmatched);
+  };
+  reader.readAsText(file);
+  event.target.value = ''; // reset so same file can be re-uploaded
+}
+
+function showAttendeeMatchPreview(matched, unmatched) {
+  const conf = CONFERENCES.find(c => c.id === confState.currentId);
+  if (!conf) return;
+  const modal = document.getElementById('modal-attendee-match');
+  document.getElementById('am-conf-name').textContent = conf.name;
+  document.getElementById('am-matched-count').textContent = matched.length;
+  document.getElementById('am-unmatched-count').textContent = unmatched.length;
+
+  const matchedList = document.getElementById('am-matched-list');
+  matchedList.innerHTML = matched.length === 0
+    ? '<div style="font-size:12px; color:var(--color-text-tertiary); padding:8px 0;">No companies in your universe matched.</div>'
+    : matched.map(m => `<div class="am-row">
+        <span class="am-source">${m.row.company || m.row.ticker}</span>
+        <span class="am-arrow">→</span>
+        <span class="cfa-tk">${m.hit.ticker}</span>
+        <span class="am-name">${m.hit.company}</span>
+      </div>`).join('');
+
+  const unmatchedList = document.getElementById('am-unmatched-list');
+  unmatchedList.innerHTML = unmatched.length === 0
+    ? '<div style="font-size:12px; color:var(--color-text-tertiary); padding:8px 0;">All companies were matched.</div>'
+    : unmatched.slice(0, 30).map(r => `<div class="am-row am-unmatched-row">
+        <span class="am-source">${r.company || r.ticker}</span>
+        <span class="am-tag">New BD target</span>
+      </div>`).join('') + (unmatched.length > 30 ? `<div style="font-size:11px; color:var(--color-text-tertiary); margin-top:6px;">…and ${unmatched.length - 30} more</div>` : '');
+
+  // Stash for apply
+  modal.dataset.matchedTickers = JSON.stringify(matched.map(m => m.hit.ticker));
+  modal.hidden = false;
+}
+
+function closeAttendeeMatchModal() {
+  document.getElementById('modal-attendee-match').hidden = true;
+}
+
+function applyAttendeeMatch() {
+  const modal = document.getElementById('modal-attendee-match');
+  const tickers = JSON.parse(modal.dataset.matchedTickers || '[]');
+  const conf = CONFERENCES.find(c => c.id === confState.currentId);
+  if (!conf) return;
+  if (!conf.confirmedAttendees) conf.confirmedAttendees = [];
+  tickers.forEach(t => {
+    if (!conf.confirmedAttendees.includes(t)) conf.confirmedAttendees.push(t);
+  });
+  closeAttendeeMatchModal();
+  openConference(conf.id);
+}
+
+// ----- Add conference modal -----
+function openAddConferenceModal() {
+  const m = document.getElementById('modal-add-conf');
+  if (!m) return;
+  // Render sector checkboxes from shared SECTORS
+  document.getElementById('ac-sectors').innerHTML = SECTORS.map(s =>
+    `<label style="font-size:12px; display:flex; gap:6px; align-items:center;"><input type="checkbox" value="${s}">${s}</label>`
+  ).join('');
+  // Clear inputs
+  ['ac-name','ac-organizer','ac-start','ac-end','ac-location'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  m.hidden = false;
+}
+function closeAddConferenceModal() {
+  document.getElementById('modal-add-conf').hidden = true;
+}
+function submitAddConference() {
+  const name = document.getElementById('ac-name').value.trim();
+  const organizer = document.getElementById('ac-organizer').value.trim();
+  const start = document.getElementById('ac-start').value;
+  const end = document.getElementById('ac-end').value || start;
+  const location = document.getElementById('ac-location').value.trim();
+  const sectors = Array.from(document.querySelectorAll('#ac-sectors input:checked')).map(cb => cb.value);
+  const status = document.getElementById('ac-status').value;
+  if (!name || !start) {
+    alert('Conference name and start date are required.');
+    return;
+  }
+  const newId = (CONFERENCES.reduce((m, c) => Math.max(m, c.id), 0) || 0) + 1;
+  CONFERENCES.push({ id: newId, name, organizer, sectors, dateStart: start, dateEnd: end, location, status, confirmedAttendees: [] });
+  closeAddConferenceModal();
+  renderConferences();
+}
+
+// ----- Person detail page -----
+let currentPersonId = null;
+
+function openPersonDetail(id) {
+  const p = PEOPLE_DATA.find(x => x.id === id);
+  if (!p) return;
+  currentPersonId = id;
+
+  const co = COMPANY_DATA.find(c => c.company === p.company) || {};
+  const rc = PERSON_RELATIONSHIP_COLORS[p.relationship] || { dot: '#9CA3AF', text: '#6B7280' };
+  const cs = COMPANY_STAGE_COLORS[co.stage] || { dot: '#9CA3AF', text: '#6B7280' };
+  const initials = p.name.split(' ').map(n => n[0]).slice(0, 2).join('');
+
+  document.getElementById('pp-bc-name').textContent = p.name;
+  document.getElementById('pp-av').textContent = initials;
+  document.getElementById('pp-name').textContent = p.name;
+  document.getElementById('pp-title').textContent = p.title;
+  document.getElementById('pp-role').textContent = p.role;
+  document.getElementById('pp-company-l').textContent = p.company;
+  document.getElementById('pp-owner-av').textContent = p.owner;
+  document.getElementById('pp-owner-name').textContent = p.ownerName;
+
+  const pillsHtml = `<span class="pv-rel-pill" style="color:${rc.text}; font-size:11px; font-weight:500;"><span class="pv-rel-dot" style="background:${rc.dot}"></span>${p.relationship}</span>`
+    + (p.archetype ? ` <span style="font-size:11px; color:var(--color-text-tertiary); margin-left:6px;">${p.archetype}</span>` : '');
+  document.getElementById('pp-pills').innerHTML = pillsHtml;
+
+  // Contact details
+  const emailEl = document.getElementById('pp-email');
+  emailEl.textContent = p.email || '—';
+  emailEl.href = p.email ? `mailto:${p.email}` : '#';
+
+  const liEl = document.getElementById('pp-linkedin');
+  if (p.linkedin) {
+    liEl.textContent = `linkedin.com/in/${p.linkedin}`;
+    liEl.href = `https://linkedin.com/in/${p.linkedin}`;
+    liEl.style.pointerEvents = '';
+  } else {
+    liEl.textContent = '—';
+    liEl.removeAttribute('href');
+  }
+
+  // Phone numbers (mock — derived from id for the demo)
+  const officePhone = p.officePhone || mockPhone(p.id, 'office');
+  const mobilePhone = p.mobilePhone || mockPhone(p.id, 'mobile');
+  const offEl = document.getElementById('pp-phone-office');
+  offEl.textContent = officePhone;
+  offEl.href = `tel:${officePhone.replace(/[^+\d]/g, '')}`;
+  const mobEl = document.getElementById('pp-phone-mobile');
+  mobEl.textContent = mobilePhone;
+  mobEl.href = `tel:${mobilePhone.replace(/[^+\d]/g, '')}`;
+
+  // Origination — picked deterministically from the id
+  document.getElementById('pp-orig').textContent = p.origination || mockOrigination(p.id);
+
+  // Recent activity (3 placeholders)
+  document.getElementById('pp-acts').innerHTML = mockRecentActivity(p).map(a => `
+    <div class="pp-act">
+      <div class="pp-act-icon">${a.icon}</div>
+      <div class="pp-act-body">
+        <div class="pp-act-row1">
+          <span class="pp-act-typ">${a.type}</span>
+          <span class="pp-act-subj">${a.subject}</span>
+        </div>
+        <div class="pp-act-meta">${a.meta}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Reset preferences to default (Allow)
+  document.querySelectorAll('#pp-prefs .pp-pref-opt').forEach(opt => {
+    opt.classList.toggle('on', opt.dataset.val === 'yes');
+  });
+
+  document.getElementById('pp-last').textContent = p.days === 0 ? '—' : `${p.days} days ago`;
+  document.getElementById('pp-rel').innerHTML = `<span class="pv-rel-pill" style="color:${rc.text}"><span class="pv-rel-dot" style="background:${rc.dot}"></span>${p.relationship}</span>`;
+  document.getElementById('pp-arch').textContent = p.archetype || '—';
+
+  if (p.flags && p.flags.length) {
+    document.getElementById('pp-flags').innerHTML = p.flags.map(f => {
+      const cls = f === 'DNC' ? 'dnc' : f === 'IR-only' ? 'iro' : f === 'Former client' ? 'former' : '';
+      return `<span class="pp-flag ${cls}">${f}</span>`;
+    }).join(' ');
+  } else {
+    document.getElementById('pp-flags').textContent = '—';
+  }
+
+  // Company card
+  document.getElementById('pp-co-name').textContent = p.company;
+  const stripParts = [];
+  if (co.ticker) stripParts.push(co.ticker);
+  if (co.mktCap) stripParts.push(co.mktCap);
+  if (co.sector) stripParts.push(co.sector);
+  if (co.hq) stripParts.push(co.hq);
+  document.getElementById('pp-co-strip').innerHTML = stripParts.map((s, i) =>
+    (i ? '<span class="sep">·</span>' : '') + `<span>${s}</span>`
+  ).join('');
+  document.getElementById('pp-co-stage').innerHTML = co.stage
+    ? `<span class="pv-rel-pill" style="color:${cs.text}; font-size:11px; font-weight:500;"><span class="pv-rel-dot" style="background:${cs.dot}"></span>${co.stage}</span>`
+    : '';
+
+  // Related contacts (other people at same company)
+  const colleagues = PEOPLE_DATA.filter(x => x.company === p.company && x.id !== p.id);
+  document.getElementById('pp-related-c').textContent = colleagues.length;
+  if (colleagues.length === 0) {
+    document.getElementById('pp-related').innerHTML = '<div style="font-size:12px; color:var(--color-text-tertiary); padding:8px 0;">No other contacts at this company yet.</div>';
+  } else {
+    document.getElementById('pp-related').innerHTML = colleagues.map(c => {
+      const cinit = c.name.split(' ').map(n => n[0]).slice(0, 2).join('');
+      const crc = PERSON_RELATIONSHIP_COLORS[c.relationship] || { dot: '#9CA3AF', text: '#6B7280' };
+      return `<div class="pp-rel-row" onclick="openPersonDetail(${c.id})">
+        <div class="pp-rel-av">${cinit}</div>
+        <div class="pp-rel-info">
+          <div class="pp-rel-name">${c.name}</div>
+          <div class="pp-rel-title">${c.title}</div>
+        </div>
+        <span class="pp-rel-dot" style="background:${crc.dot}" title="${c.relationship}"></span>
+      </div>`;
+    }).join('');
+  }
+
+  showPage('page-person');
+}
+
+function goToCompanyFromPerson() {
+  // For now, only Ridgeline has a full detail page; others would need data
+  showPage('page-company');
+}
+
+// ----- Search across People / Companies / Activities -----
+function onPeopleSearch(v) {
+  peopleState.search = (v || '').toLowerCase().trim();
+  renderPeople();
+}
+function onCompaniesSearch(v) {
+  companiesState.search = (v || '').toLowerCase().trim();
+  renderCompanies();
+}
+function onActivitySearch(v) {
+  const q = (v || '').toLowerCase().trim();
+  document.querySelectorAll('.tl .ev').forEach(ev => {
+    const text = ev.textContent.toLowerCase();
+    ev.style.display = (!q || text.includes(q)) ? '' : 'none';
+  });
+}
+
 // People saved-view tabs
 document.querySelectorAll('[data-pv-tab]').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -2535,6 +4758,20 @@ document.querySelectorAll('[data-pv-tab]').forEach(tab => {
 });
 
 // ========== Register people columns into HEADER_FILTERS ==========
+HEADER_FILTERS['pv-sector'] = {
+  table: 'people', label: 'Sector', type: 'cat',
+  valueOf: (p) => {
+    const c = COMPANY_DATA.find(c => c.company === p.company);
+    return c ? c.sector : '';
+  }
+};
+HEADER_FILTERS['pv-mktcap'] = {
+  table: 'people', label: 'Mkt cap', type: 'num',
+  valueOf: (p) => {
+    const c = COMPANY_DATA.find(c => c.company === p.company);
+    return c ? parseMktCap(c.mktCap) : 0;
+  }
+};
 HEADER_FILTERS['pv-role'] = {
   table: 'people', label: 'Role', type: 'cat',
   valueOf: (p) => p.role,
@@ -2580,6 +4817,7 @@ HEADER_FILTERS['pv-days'] = {
 
 // Add people table state with default sort by days desc
 tableState.people = { sort: [{ col: 'pv-days', dir: 'desc' }], filters: {} };
+tableState.conferences = { sort: [{ col: 'cv-date', dir: 'asc' }], filters: {} };
 
 // Special filter handling for pv-flags since it's an array
 // Override passesColumnFilters logic with a wrapper just for people
@@ -2790,6 +5028,34 @@ function closeDealDrawer() {
   document.getElementById('drawer-deal').hidden = true;
 }
 
+
+// Build the document list for a deal based on its stage
+function getDealDocuments(d) {
+  const docs = [];
+  const SAMPLE_PDF = 'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf';
+  const fmtDate = (dt) => dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const proposalSent = ['Proposal','Contract','Won'].includes(d.stage) || (d.stage === 'Lost' && d.days > 0);
+  if (proposalSent) {
+    docs.push({
+      name: d.deal + ' proposal',
+      date: fmtDate(new Date(Date.now() - d.days * 86400000)),
+      url: SAMPLE_PDF
+    });
+  }
+
+  if (['Contract','Won'].includes(d.stage)) {
+    const contractDays = Math.max(1, Math.floor(d.days / 2));
+    docs.push({
+      name: 'Services agreement',
+      date: fmtDate(new Date(Date.now() - contractDays * 86400000)),
+      url: SAMPLE_PDF
+    });
+  }
+
+  return docs;
+}
+
 function renderDealDrawer(d) {
   const sc = STAGE_COLORS[d.stage] || { dot: '#9CA3AF', text: '#6B7280' };
   const isStalled = d.stalledDays > 0;
@@ -2830,6 +5096,22 @@ function renderDealDrawer(d) {
         <span style="color:var(--color-text-tertiary); font-size:11px;">·</span>
         <span style="font-size:12px; color:var(--color-text-secondary);">${d.type || (d.deal === 'Investor access' ? 'Annual retainer' : 'Project')}</span>
       </div>
+
+      ${(() => {
+        const docs = getDealDocuments(d);
+        if (!docs.length) return '';
+        return `
+        <div style="margin-bottom:14px; padding:10px 12px; background:var(--color-background-secondary); border-radius:6px;">
+          <div class="ed-cell-l" style="margin-bottom:6px;">DOCUMENTS</div>
+          ${docs.map(doc => `
+            <div style="display:flex; align-items:center; gap:8px; padding:3px 0; font-size:12px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:14px; height:14px; color:var(--color-text-tertiary); flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <a href="${doc.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--color-text-primary); text-decoration:none; flex:1;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${doc.name}</a>
+              <span style="color:var(--color-text-tertiary); font-size:11px;">${doc.date}</span>
+            </div>
+          `).join('')}
+        </div>`;
+      })()}
 
       <div class="ed-grid" style="margin-bottom:12px;">
         <div>
@@ -2987,6 +5269,198 @@ document.querySelectorAll('.p-act, .m-act').forEach(btn => {
 });
 </script>
 
+
+
+<!-- ========== ADD CALENDAR EVENT MODAL ========== -->
+<div id="modal-add-event" class="modal-scrim" hidden>
+  <div class="modal-card" style="width: 460px;">
+    <div class="m-head">
+      <div class="m-title" id="ae-modal-title">Add event</div>
+      <button class="m-x" onclick="closeAddEventModal()" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="m-body">
+      <div class="field">
+        <label class="field-label">Type</label>
+        <select id="ae-type" class="field-select">
+          <option value="conference">Conference</option>
+          <option value="bdtrip">BD Trip</option>
+          <option value="vacation">Vacation</option>
+          <option value="notravel">No Travel</option>
+          <option value="blackout">Earnings Blackout</option>
+          <option value="campaign">Email Campaign</option>
+          <option value="iro">IRO Dinner</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Title</label>
+        <input id="ae-title" class="field-input" type="text" placeholder="e.g. Team offsite, John vacation" />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Start date</label>
+          <input id="ae-start" class="field-input" type="date" />
+        </div>
+        <div class="field">
+          <label class="field-label">End date</label>
+          <input id="ae-end" class="field-input" type="date" />
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Location <span style="color:var(--color-text-tertiary); font-weight:400">(optional)</span></label>
+        <input id="ae-location" class="field-input" type="text" placeholder="e.g. New York, Paris, etc." />
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn" id="ae-delete" onclick="deleteEvent()" style="display:none; color:#B53832; border-color:#FCA5A5; margin-right:auto;">Delete</button>
+      <button class="btn" onclick="closeAddEventModal()">Cancel</button>
+      <button class="btn" id="ae-submit" style="background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary);" onclick="submitAddEvent()">Add event</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========== ADD CONFERENCE MODAL ========== -->
+<div id="modal-add-conf" class="modal-scrim" hidden>
+  <div class="modal-card" style="width: 520px;">
+    <div class="m-head">
+      <div class="m-title">Add conference</div>
+      <button class="m-x" onclick="closeAddConferenceModal()" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="m-body">
+      <div class="field">
+        <label class="field-label">Conference name</label>
+        <input id="ac-name" class="field-input" type="text" placeholder="e.g. JPM Healthcare Conference" />
+      </div>
+      <div class="field">
+        <label class="field-label">Organizer</label>
+        <input id="ac-organizer" class="field-input" type="text" placeholder="e.g. JPMorgan" />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Start date</label>
+          <input id="ac-start" class="field-input" type="date" />
+        </div>
+        <div class="field">
+          <label class="field-label">End date</label>
+          <input id="ac-end" class="field-input" type="date" />
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Location</label>
+        <input id="ac-location" class="field-input" type="text" placeholder="e.g. San Francisco, CA" />
+      </div>
+      <div class="field">
+        <label class="field-label">Status</label>
+        <select id="ac-status" class="field-select">
+          <option value="confirmed">Confirmed (dates locked)</option>
+          <option value="estimated">Estimated (recurring, dates TBD)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Sectors <span style="color:var(--color-text-tertiary); font-weight:400">(check all that apply)</span></label>
+        <div id="ac-sectors" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px 12px; padding:6px 0;">
+          <!-- populated dynamically from SECTORS on modal open -->
+        </div>
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn" onclick="closeAddConferenceModal()">Cancel</button>
+      <button class="btn" style="background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary);" onclick="submitAddConference()">Add conference</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========== ATTENDEE LIST MATCH MODAL ========== -->
+<div id="modal-attendee-match" class="modal-scrim" hidden>
+  <div class="modal-card" style="width: 600px; max-height: 85vh; display:flex; flex-direction:column;">
+    <div class="m-head">
+      <div class="m-title">Apply attendee list</div>
+      <button class="m-x" onclick="closeAttendeeMatchModal()" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="m-body" style="overflow-y:auto;">
+      <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:14px; line-height:1.5;">
+        Uploading attendee list for <strong id="am-conf-name">Conference</strong>. Companies matched in your universe will be marked as <strong style="color:#137A4A">Confirmed</strong> attendees.
+      </div>
+      <div style="display:flex; gap:16px; margin-bottom:14px; padding:10px 12px; background:var(--color-background-secondary); border-radius:6px;">
+        <div><span style="font-size:18px; font-weight:600; color:#137A4A;" id="am-matched-count">0</span> <span style="font-size:11px; color:var(--color-text-tertiary);">matched</span></div>
+        <div><span style="font-size:18px; font-weight:600; color:var(--color-text-primary);" id="am-unmatched-count">0</span> <span style="font-size:11px; color:var(--color-text-tertiary);">new BD targets</span></div>
+      </div>
+      <h4 style="font-size:11px; color:var(--color-text-tertiary); letter-spacing:0.04em; text-transform:uppercase; margin: 14px 0 6px;">Matched (will be confirmed)</h4>
+      <div id="am-matched-list"></div>
+      <h4 style="font-size:11px; color:var(--color-text-tertiary); letter-spacing:0.04em; text-transform:uppercase; margin: 14px 0 6px;">Unmatched (companies not in your universe)</h4>
+      <div id="am-unmatched-list"></div>
+    </div>
+    <div class="m-foot">
+      <button class="btn" onclick="closeAttendeeMatchModal()">Cancel</button>
+      <button class="btn" style="background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary);" onclick="applyAttendeeMatch()">Apply matches</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========== LOG ACTIVITY MODAL ========== -->
+<div id="modal-log-activity" class="modal-scrim" hidden>
+  <div class="modal-card" style="width: 560px; max-height: 90vh; display:flex; flex-direction:column;">
+    <div class="m-head">
+      <div class="m-title">Log activity</div>
+      <button class="m-x" onclick="closeLogActivityModal()" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="m-body" style="overflow-y:auto;">
+
+      <div class="field">
+        <label class="field-label">Type</label>
+        <div id="la-type-grid" class="la-type-grid"></div>
+      </div>
+
+      <div class="field" id="la-other-field" hidden>
+        <label class="field-label">Specify type</label>
+        <input id="la-other" class="field-input" type="text" placeholder="e.g. Conference panel attended, podcast appearance" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Date</label>
+          <input id="la-date" class="field-input" type="date" />
+        </div>
+        <div class="field">
+          <label class="field-label">Outcome <span style="color:var(--color-text-tertiary); font-weight:400">(optional)</span></label>
+          <select id="la-outcome" class="field-select">
+            <option value="">—</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Contacts</label>
+        <div id="la-contacts" class="la-chip-input">
+          <input id="la-contact-search" type="text" placeholder="Type to search people…" oninput="laOnContactSearch(this.value)" onfocus="laOnContactSearch(this.value)" />
+        </div>
+        <div id="la-contact-typeahead" class="la-typeahead" hidden></div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Company <span style="color:var(--color-text-tertiary); font-weight:400">(auto-set from contact)</span></label>
+        <input id="la-company" class="field-input" type="text" readonly />
+      </div>
+
+      <div class="field">
+        <label class="field-label">Subject</label>
+        <input id="la-subject" class="field-input" type="text" placeholder="e.g. Caught up on Q3 IR plan" />
+      </div>
+
+      <div class="field">
+        <label class="field-label">Notes</label>
+        <textarea id="la-notes" class="field-textarea" rows="6" placeholder="What happened, what was discussed, next steps…"></textarea>
+      </div>
+
+    </div>
+    <div class="m-foot">
+      <button class="btn" onclick="closeLogActivityModal()">Cancel</button>
+      <button class="btn" style="background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary);" onclick="submitLogActivity()">Log activity</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
